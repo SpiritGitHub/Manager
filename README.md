@@ -476,7 +476,11 @@ Ce projet a été développé dans le cadre du cours INF2328. Voici la répartit
 - Documentation (README.md complet)
 - Tests et débogage
 
-### [Nom du deuxième membre] *(À compléter)*
+### [À COMPLÉTER - Nom du deuxième membre de l'équipe]
+_Si vous travaillez en binôme, veuillez compléter cette section avec le nom de votre coéquipier et sa contribution._
+_Si vous travaillez seul, veuillez supprimer cette section et indiquer clairement que le projet a été réalisé individuellement._
+
+**Contributions possibles** :
 - Interface utilisateur (View)
   - MainView (vue principale JavaFX)
   - CityMapView (carte interactive de la ville)
@@ -492,7 +496,12 @@ Ce projet a été développé dans le cadre du cours INF2328. Voici la répartit
 - Utilitaires UI (UIColors, UIStyles, GameConfig)
 - Tests de l'interface utilisateur
 
-**Note :** Si vous êtes le seul développeur sur ce projet, veuillez indiquer que vous avez réalisé l'ensemble du travail seul, conformément aux exigences du projet.
+---
+
+**⚠️ IMPORTANT - À FAIRE AVANT DE RENDRE LE PROJET :**
+1. Compléter le nom du deuxième membre si travail en binôme
+2. OU supprimer la section du deuxième membre et indiquer "Projet réalisé individuellement par PINDRA AZHAR"
+3. Détailler précisément la répartition réelle des tâches effectuées
 
 ---
 
