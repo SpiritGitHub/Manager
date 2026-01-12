@@ -1,0 +1,2 @@
+# This file ensures the saves directory is tracked by Git
+# Game save files will be created here but are gitignored

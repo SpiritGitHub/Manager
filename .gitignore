@@ -1,0 +1,157 @@
+# ═══════════════════════════════════════════════════════════════
+# ÉnergiVille - Comprehensive .gitignore
+# ═══════════════════════════════════════════════════════════════
+
+# ═══ Maven Build ═══
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ═══ Build Logs ═══
+*.log
+build.log
+build_*.log
+*.log.*
+
+# ═══ IntelliJ IDEA ═══
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+*.swp
+*~.nib
+local.properties
+
+# ═══ Eclipse ═══
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# ═══ NetBeans ═══
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ═══ VS Code ═══
+.vscode/
+*.code-workspace
+.history/
+
+# ═══ Java ═══
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
+
+# ═══ JavaFX ═══
+*.fxml.bak
+
+# ═══ Game Saves (keep directory structure) ═══
+saves/*.energyville
+saves/*.sav
+saves/*.dat
+!saves/.gitkeep
+
+# ═══ Temporary Files ═══
+*.tmp
+*.temp
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ═══ Package Files ═══
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ═══ Logs and Databases ═══
+*.log
+*.sql
+*.sqlite
+*.db
+
+# ═══ OS Generated ═══
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ═══ Backup Files ═══
+*.bak
+*.backup
+*.old
+*~
+
+# ═══ Security ═══
+*.key
+*.pem
+*.p12
+secrets.properties
+credentials.json
+
+# ═══ Documentation Build ═══
+docs/_build/
+site/
+
+# ═══ Test Coverage ═══
+*.coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.mypy_cache/
+
+# ═══ Keep Essential Directories ═══
+!.mvn/
+!src/
+!saves/.gitkeep
+
+.comments
