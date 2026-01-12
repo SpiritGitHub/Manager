@@ -375,29 +375,6 @@ Le projet suit une architecture **MVC stricte** :
 
 ---
 
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! Voici comment participer :
-
-1. **Fork** le projet
-2. **Créez** une branche (`git checkout -b feature/AmazingFeature`)
-3. **Committez** vos changements (`git commit -m 'Add AmazingFeature'`)
-4. **Push** vers la branche (`git push origin feature/AmazingFeature`)
-5. **Ouvrez** une Pull Request
-
-### Idées de Contributions
-
-- 🎨 Améliorer l'interface graphique
-- 🎵 Ajouter des sons et de la musique
-- 🌐 Système de localisation (EN, ES, etc.)
-- 🏆 Plus de succès et objectifs
-- 🎲 Événements aléatoires (catastrophes, bonus)
-- 📊 Graphiques et statistiques avancées
-- 🗺️ Différents types de terrains
-- 🚗 Système de transport
-
----
-
 ## 📄 Licence
 
 Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
@@ -416,7 +393,6 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plu
 
 - Inspiré par les jeux de gestion classiques comme SimCity et Cities: Skylines
 - Merci à la communauté JavaFX pour les ressources et tutoriels
-- Icônes et assets (si applicable)
 
 ---
 
