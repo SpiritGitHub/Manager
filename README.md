@@ -4,8 +4,8 @@
 
 **Un jeu de gestion de ville axé sur la production et la distribution d'énergie**
 
-![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=java)
-![JavaFX](https://img.shields.io/badge/JavaFX-21-blue?style=for-the-badge&logo=java)
+![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)
+![JavaFX](https://img.shields.io/badge/JavaFX-17-blue?style=for-the-badge&logo=java)
 ![Maven](https://img.shields.io/badge/Maven-3.8+-red?style=for-the-badge&logo=apache-maven)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
@@ -93,7 +93,7 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 Avant de commencer, assurez-vous d'avoir installé :
 
-- **Java Development Kit (JDK) 21** ou supérieur
+- **Java Development Kit (JDK) 17** ou supérieur
 
   - [Télécharger JDK](https://www.oracle.com/java/technologies/downloads/)
   - Vérifiez avec : `java -version`
@@ -103,7 +103,7 @@ Avant de commencer, assurez-vous d'avoir installé :
   - [Télécharger Maven](https://maven.apache.org/download.cgi)
   - Vérifiez avec : `mvn -version`
 
-- **JavaFX 21** (géré automatiquement par Maven)
+- **JavaFX 17** (géré automatiquement par Maven)
 
 ### Configuration Système Recommandée
 
@@ -315,8 +315,8 @@ Facteurs négatifs :
 
 ### Langage et Framework
 
-- **Java 21** - Langage de programmation
-- **JavaFX 21** - Framework d'interface graphique
+- **Java 17** - Langage de programmation
+- **JavaFX 17** - Framework d'interface graphique
 - **Maven** - Gestion des dépendances et build
 
 ### Architecture
@@ -372,6 +372,47 @@ Le projet suit une architecture **MVC stricte** :
 - **Langue** : Commentaires et noms en français
 - **Style** : CamelCase pour les classes, camelCase pour les méthodes
 - **Documentation** : Javadoc pour les classes et méthodes publiques
+
+---
+
+## 👥 Répartition des Tâches
+
+Ce projet a été développé dans le cadre du cours INF2328. Voici la répartition du travail entre les membres de l'équipe :
+
+### PINDRA AZHAR
+- Architecture générale du projet (MVC)
+- Système de modèle (Model)
+  - Entités de base (Building, Residence, PowerPlant, Infrastructure)
+  - Types de centrales (CoalPlant, NuclearPlant, SolarPlant, WindTurbine)
+  - Système de ville (City)
+  - Énumérations (BuildingType, ResidenceLevel, PowerPlantType, etc.)
+- Système de simulation
+  - TimeManager (gestion du temps)
+  - EnergySimulator (simulation énergétique)
+  - EconomyManager (gestion économique)
+  - PopulationManager (gestion de population)
+- GameState (état global du jeu, succès, objectifs, sauvegarde)
+- Configuration Maven (pom.xml)
+- Documentation (README.md complet)
+- Tests et débogage
+
+### [Nom du deuxième membre] *(À compléter)*
+- Interface utilisateur (View)
+  - MainView (vue principale JavaFX)
+  - CityMapView (carte interactive de la ville)
+  - StatsPanel (panneau de statistiques)
+  - BuildingMenu et BuildingListPanel (menus de construction)
+  - ControlPanel (panneau de contrôle)
+  - Dialogs et notifications
+- Contrôleurs (Controller)
+  - GameController (contrôleur principal)
+  - BuildingController (gestion des bâtiments)
+  - TimeController (contrôle du temps)
+- Intégration des composants
+- Utilitaires UI (UIColors, UIStyles, GameConfig)
+- Tests de l'interface utilisateur
+
+**Note :** Si vous êtes le seul développeur sur ce projet, veuillez indiquer que vous avez réalisé l'ensemble du travail seul, conformément aux exigences du projet.
 
 ---
 
