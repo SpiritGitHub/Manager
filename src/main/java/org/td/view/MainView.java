@@ -130,7 +130,7 @@ class NotificationPanel {
         container.setStyle("-fx-background-color: transparent;");
         container.setPadding(new Insets(20));
         container.setPickOnBounds(false);
-        container.setMouseTransparent(false);
+        container.setMouseTransparent(true);
         StackPane.setAlignment(container, javafx.geometry.Pos.TOP_RIGHT);
     }
 
