@@ -87,17 +87,17 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 ### 🖼️ Captures (images)
 
-| Écran | Aperçu |
-|------|--------|
-| Menu principal | ![Menu principal](docs/screenshots/01-menu-principal.png) |
-| Carte de la ville | ![Carte](docs/screenshots/02-carte-ville.png) |
-| Construction | ![Construction](docs/screenshots/03-construction.png) |
-| Statistiques | ![Stats](docs/screenshots/04-stats.png) |
-| Événements / alertes | ![Événements](docs/screenshots/05-evenements.png) |
+| Écran                | Aperçu                                                    |
+| -------------------- | --------------------------------------------------------- |
+| Menu principal       | ![Menu principal](docs/screenshots/01-menu-principal.PNG) |
+| Carte de la ville    | ![Carte](docs/screenshots/02-carte-ville.PNG)             |
+| Construction         | ![Construction](docs/screenshots/03-construction.PNG)     |
+| Statistiques         | ![Stats](docs/screenshots/04-stats.PNG)                   |
+| Événements / alertes | ![Événements](docs/screenshots/05-evenements.PNG)         |
 
-### 🎥 Démo vidéo 
+### 🎥 Démo vidéo
 
-[ouvrir la vidéo](docs/videos/demo.mp4)
+[ouvrir la vidéo](docs/videos/demo.MP4)
 
 ---
 
@@ -106,12 +106,10 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 Avant de commencer, assurez-vous d'avoir installé :
 
 - **Java Development Kit (JDK) 21** ou supérieur
-
   - [Télécharger JDK](https://www.oracle.com/java/technologies/downloads/)
   - Vérifiez avec : `java -version`
 
 - **Apache Maven 3.8+**
-
   - [Télécharger Maven](https://maven.apache.org/download.cgi)
   - Vérifiez avec : `mvn -version`
 
@@ -258,6 +256,18 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 - Bonheur > 50%
 - Pas de dette importante
 
+**Tableau de Progression :**
+
+| Niveau  | Population | Déblocages                                   |
+| :-----: | :--------: | :------------------------------------------- |
+|  **1**  |     0      | Résidences, Centrale Charbon, Parc, Commerce |
+|  **2**  |    200     | École, Hôpital, Police, Pompiers, Éolienne   |
+|  **3**  |    500     | Musée, Centrale Solaire                      |
+|  **4**  |   1 000    | Jardin Botanique                             |
+|  **5**  |   2 000    | Stade (Boost massif de bonheur)              |
+|  **6**  |   4 000    | Université, Centrale Nucléaire               |
+| **...** |    ...     | Et plus encore jusqu'au niveau 10 !          |
+
 ### ⚡ Gestion de l'Énergie
 
 **Production** :
@@ -265,6 +275,15 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 - Chaque centrale produit une quantité d'énergie variable
 - Les énergies renouvelables dépendent des conditions (jour/nuit, météo)
 - La maintenance affecte l'efficacité
+
+**Types de Centrales :**
+
+| Type             | Coût   | Pollution | Production | Note                                        |
+| :--------------- | :----- | :-------: | :--------: | :------------------------------------------ |
+| 🔥 **Charbon**   | Faible |  Élevée   |   Stable   | Idéal pour débuter, mais coûteux en charbon |
+| 💨 **Éolienne**  | Moyen  |   Nulle   |  Variable  | Dépend du vent, pas de coût de carburant    |
+| ☀️ **Solaire**   | Moyen  |   Nulle   |    Jour    | Ne produit que le jour, 100% propre         |
+| ⚛️ **Nucléaire** | Élevé  |  Faible   |  Massive   | Très puissant, demande de l'eau             |
 
 **Demande** :
 
@@ -290,6 +309,13 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 - Maintenance des bâtiments (mensuelle)
 - Coûts opérationnels des centrales
 - Salaires et services
+
+**Conseils pour l'Équilibre Budgétaire :**
+
+1. **Factures** : Plus vous avez d'habitants, plus vous gagnez (0.65€/h par habitant).
+2. **Taxes** : Chaque niveau de ville vous rapporte une subvention (10€/h par niveau).
+3. **Excédent** : Vendez votre surplus d'électricité !
+4. **Attention** : Les services (Police, Hôpital) coûtent cher. Ne les construisez que si votre budget le permet.
 
 ### 😊 Bonheur des Citoyens
 

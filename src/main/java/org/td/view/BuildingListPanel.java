@@ -23,7 +23,7 @@ public class BuildingListPanel {
     private GameController controller;
     private VBox mainLayout;
     private TabPane tabPane;
-    
+
     // Contenu des onglets
     private VBox constructionContent;
     private VBox managementContent;
@@ -42,36 +42,36 @@ public class BuildingListPanel {
         // Création du TabPane
         tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        
+
         // --- ONGLET 1 : CONSTRUCTION 🏗️ ---
         Tab constructionTab = new Tab("Construction");
         constructionTab.setClosable(false);
-        
+
         ScrollPane scrollConstruct = new ScrollPane();
         scrollConstruct.setFitToWidth(true);
         constructionContent = new VBox(10);
         constructionContent.setPadding(new Insets(10));
         constructionContent.setStyle(UIStyles.PANEL_DARK);
         scrollConstruct.setContent(constructionContent);
-        
+
         constructionTab.setContent(scrollConstruct);
 
         // --- ONGLET 2 : GESTION 🔧 ---
         Tab managementTab = new Tab("Gestion");
         managementTab.setClosable(false);
-        
+
         ScrollPane scrollManage = new ScrollPane();
         scrollManage.setFitToWidth(true);
         managementContent = new VBox(10);
         managementContent.setPadding(new Insets(10));
         managementContent.setStyle(UIStyles.PANEL_DARK);
         scrollManage.setContent(managementContent);
-        
+
         managementTab.setContent(scrollManage);
 
         // Ajout des onglets
         tabPane.getTabs().addAll(constructionTab, managementTab);
-        
+
         // CSS pour les onglets (simple)
         tabPane.setStyle("-fx-background-color: transparent; -fx-text-fill: white;");
 
@@ -84,11 +84,11 @@ public class BuildingListPanel {
     }
 
     // ==========================================
-    //           ONGLET CONSTRUCTION
+    // ONGLET CONSTRUCTION
     // ==========================================
     private void refreshConstructionList() {
         constructionContent.getChildren().clear();
-        
+
         BuildingController bc = controller.getBuildingController();
 
         // 1. Centrales
@@ -113,17 +113,45 @@ public class BuildingListPanel {
         constructionContent.getChildren().add(lblInfra);
 
         for (BuildingType type : BuildingType.values()) {
-             if (type.isUnlockedAt(controller.getCity().getLevel())) {
+            if (type.isUnlockedAt(controller.getCity().getLevel())) {
                 constructionContent.getChildren().add(createConstructionCard(type));
+            } else {
+                // Show locked item
+                constructionContent.getChildren().add(createLockedCard(type));
             }
         }
+    }
+
+    // Carte pour un bâtiment verrouillé
+    private VBox createLockedCard(BuildingType type) {
+        VBox card = new VBox(5);
+        card.setPadding(new Insets(8));
+        card.setStyle(
+                "-fx-background-color: #1f2937; -fx-background-radius: 5; -fx-border-color: #374151; -fx-border-radius: 5; -fx-opacity: 0.7;");
+
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+        Label icon = new Label("🔒");
+        icon.setFont(Font.font(24));
+
+        VBox texts = new VBox(2);
+        Label name = new Label(type.getDisplayName());
+        name.setStyle("-fx-text-fill: #9ca3af; -fx-font-weight: bold;");
+        Label lockInfo = new Label("Niveau " + type.getMinimumCityLevel() + " requis");
+        lockInfo.setStyle("-fx-text-fill: #ef4444; -fx-font-size: 10px;");
+        texts.getChildren().addAll(name, lockInfo);
+
+        header.getChildren().addAll(icon, texts);
+        card.getChildren().add(header);
+        return card;
     }
 
     // Carte pour une Centrale
     private VBox createConstructionCard(PowerPlantType type) {
         VBox card = new VBox(5);
         card.setPadding(new Insets(8));
-        card.setStyle("-fx-background-color: #374151; -fx-background-radius: 5; -fx-border-color: #4b5563; -fx-border-radius: 5;");
+        card.setStyle(
+                "-fx-background-color: #374151; -fx-background-radius: 5; -fx-border-color: #4b5563; -fx-border-radius: 5;");
 
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
@@ -134,10 +162,10 @@ public class BuildingListPanel {
         header.getChildren().addAll(icon, name);
 
         double cost = type.getConstructionCost(1);
-        Button btnBuild = new Button("Construire (" + (int)cost + " €)");
+        Button btnBuild = new Button("Construire (" + (int) cost + " €)");
         btnBuild.setMaxWidth(Double.MAX_VALUE);
         btnBuild.setStyle(UIStyles.BUTTON_PRIMARY);
-        
+
         // Action
         btnBuild.setOnAction(e -> {
             controller.getBuildingController().setBuildPowerPlantMode(type);
@@ -151,7 +179,8 @@ public class BuildingListPanel {
     private VBox createConstructionCard(BuildingType type) {
         VBox card = new VBox(5);
         card.setPadding(new Insets(8));
-        card.setStyle("-fx-background-color: #374151; -fx-background-radius: 5; -fx-border-color: #4b5563; -fx-border-radius: 5;");
+        card.setStyle(
+                "-fx-background-color: #374151; -fx-background-radius: 5; -fx-border-color: #4b5563; -fx-border-radius: 5;");
 
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
@@ -162,7 +191,7 @@ public class BuildingListPanel {
         header.getChildren().addAll(icon, name);
 
         double cost = type.getConstructionCost();
-        Button btnBuild = new Button("Construire (" + (int)cost + " €)");
+        Button btnBuild = new Button("Construire (" + (int) cost + " €)");
         btnBuild.setMaxWidth(Double.MAX_VALUE);
         btnBuild.setStyle(UIStyles.BUTTON_PRIMARY);
 
@@ -176,7 +205,7 @@ public class BuildingListPanel {
     }
 
     // ==========================================
-    //             ONGLET GESTION
+    // ONGLET GESTION
     // ==========================================
     private void refreshBuildingList() {
         managementContent.getChildren().clear();
@@ -205,18 +234,20 @@ public class BuildingListPanel {
             Label h = new Label("⚡ Centrales (" + powerPlants.size() + ")");
             h.setStyle(UIStyles.LABEL_SUBTITLE);
             managementContent.getChildren().add(h);
-            for (PowerPlant p : powerPlants) managementContent.getChildren().add(createManageCard(p));
+            for (PowerPlant p : powerPlants)
+                managementContent.getChildren().add(createManageCard(p));
         }
 
         if (!infrastructures.isEmpty()) {
             Separator sep = new Separator();
             sep.setPadding(new Insets(10, 0, 10, 0));
             managementContent.getChildren().add(sep);
-            
+
             Label h = new Label("🏢 Infrastructures (" + infrastructures.size() + ")");
             h.setStyle(UIStyles.LABEL_SUBTITLE);
             managementContent.getChildren().add(h);
-            for (Infrastructure i : infrastructures) managementContent.getChildren().add(createManageCard(i));
+            for (Infrastructure i : infrastructures)
+                managementContent.getChildren().add(createManageCard(i));
         }
     }
 
@@ -228,10 +259,10 @@ public class BuildingListPanel {
         // Header
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
-        
+
         String iconStr = "❓";
         String nameStr = building.getType();
-        
+
         if (building instanceof PowerPlant pp) {
             iconStr = pp.getPlantType().getIcon();
             nameStr = pp.getPlantType().getDisplayName();
@@ -242,14 +273,14 @@ public class BuildingListPanel {
 
         Label icon = new Label(iconStr);
         icon.setFont(Font.font(20));
-        
+
         VBox texts = new VBox(2);
         Label name = new Label(nameStr);
         name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         Label lvl = new Label("Niveau " + building.getLevel());
         lvl.setStyle("-fx-text-fill: #d1d5db; -fx-font-size: 10px;");
         texts.getChildren().addAll(name, lvl);
-        
+
         header.getChildren().addAll(icon, texts);
 
         // Bouton Upgrade
@@ -265,16 +296,16 @@ public class BuildingListPanel {
             upgradeBtn.setDisable(true);
             upgradeBtn.setStyle("-fx-background-color: #374151; -fx-text-fill: #9ca3af;");
         } else {
-             upgradeBtn.setText("⬆ " + (int)cost + " €");
-             if (canAfford) {
-                 upgradeBtn.setStyle(UIStyles.BUTTON_SUCCESS);
-                 upgradeBtn.setDisable(false);
-             } else {
-                 upgradeBtn.setStyle(UIStyles.BUTTON_PRIMARY); // Ou rouge/gris pour indiquer pas assez d'argent
-                 upgradeBtn.setDisable(true);
-             }
+            upgradeBtn.setText("⬆ " + (int) cost + " €");
+            if (canAfford) {
+                upgradeBtn.setStyle(UIStyles.BUTTON_SUCCESS);
+                upgradeBtn.setDisable(false);
+            } else {
+                upgradeBtn.setStyle(UIStyles.BUTTON_PRIMARY); // Ou rouge/gris pour indiquer pas assez d'argent
+                upgradeBtn.setDisable(true);
+            }
         }
-        
+
         upgradeBtn.setOnAction(e -> {
             BuildingUpgradeDialog.show(building, controller);
             javafx.application.Platform.runLater(this::refreshBuildingList);
@@ -285,7 +316,8 @@ public class BuildingListPanel {
     }
 
     private void startUpdateTimer() {
-        // Rafraîchir l'interface toutes les quelques secondes pour mettre à jour les disponibilités
+        // Rafraîchir l'interface toutes les quelques secondes pour mettre à jour les
+        // disponibilités
         javafx.animation.Timeline timeline = new javafx.animation.Timeline(
                 new javafx.animation.KeyFrame(
                         javafx.util.Duration.seconds(2),

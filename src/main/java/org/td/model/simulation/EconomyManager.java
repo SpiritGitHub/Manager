@@ -79,8 +79,8 @@ public class EconomyManager {
 
         // === REVENUS ===
 
-        // 1. Factures des résidents (200 coins/mois = ~0.28/hour) -> Augmenté à ~0.50
-        double residentBills = city.getPopulation() * 0.50; // 0.50 coins par habitant par heure
+        // 1. Factures des résidents (200 coins/mois = ~0.28/hour) -> Augmenté à ~0.65
+        double residentBills = city.getPopulation() * 0.65; // 0.65 coins par habitant par heure
         revenue += residentBills;
 
         // 2. Vente d'électricité EXCÉDENTAIRE
@@ -89,8 +89,8 @@ public class EconomyManager {
         revenue += electricityRevenue;
 
         // 3. Taxe municipale (1000 coins/mois par niveau = ~1.39/hour par niveau) ->
-        // Augmenté à 5.0
-        double cityTax = city.getLevel() * 5.0;
+        // Augmenté à 10.0
+        double cityTax = city.getLevel() * 10.0;
         revenue += cityTax;
 
         // 4. Revenus des infrastructures commerciales
@@ -116,7 +116,7 @@ public class EconomyManager {
         expenses += infraMaintenance;
 
         // 3. Coûts administratifs (basé sur taille ville)
-        double adminCosts = city.getPopulation() * 0.02; // 2 centimes par habitant
+        double adminCosts = city.getPopulation() * 0.01; // 1 centime par habitant
         expenses += adminCosts;
 
         // Enregistrement
