@@ -1,4 +1,4 @@
-# ⚡ ÉnergiVille - Tycoon Énergétique
+# ÉnergiVille - Tycoon Énergétique
 
 <div align="center">
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 📋 Table des Matières
+## Table des Matières
 
 - [À Propos](#-à-propos)
 - [Fonctionnalités](#-fonctionnalités)
@@ -30,13 +30,13 @@
 
 ---
 
-## 🎮 À Propos
+## À Propos
 
 **ÉnergiVille** est un jeu de simulation et de gestion où vous incarnez le maire d'une ville en pleine croissance. Votre mission : développer une infrastructure énergétique durable tout en maintenant le bonheur de vos citoyens et l'équilibre financier de votre ville.
 
 Gérez la production d'énergie, construisez des résidences, développez des infrastructures et faites face aux défis d'une ville moderne : pollution, demande énergétique croissante, et satisfaction des habitants.
 
-### 🎯 Objectifs du Jeu
+### Objectifs du Jeu
 
 - **Développer votre ville** de niveau 1 à niveau 10
 - **Équilibrer** production d'énergie et demande
@@ -46,19 +46,19 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 ---
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
-### 🏗️ Construction et Gestion
+### Construction et Gestion
 
 - **Résidences** : Maisons, Appartements, Gratte-ciels (3 niveaux)
 - **Centrales Électriques** :
-  - 🔥 Centrale à Charbon (polluante mais économique)
-  - ⚛️ Centrale Nucléaire (puissante mais coûteuse)
-  - ☀️ Panneaux Solaires (propres, production variable)
-  - 💨 Éoliennes (renouvelables, dépendantes du vent)
+  - Centrale à Charbon (polluante mais économique)
+  - Centrale Nucléaire (puissante mais coûteuse)
+  - Panneaux Solaires (propres, production variable)
+  - Éoliennes (renouvelables, dépendantes du vent)
 - **Infrastructures** : Routes, Parcs, Écoles, Hôpitaux
 
-### 📊 Système de Simulation
+### Système de Simulation
 
 - **Gestion du Temps** : Simulation jour/nuit avec vitesse ajustable (1x, 2x, 5x)
 - **Économie Dynamique** : Revenus, dépenses, maintenance
@@ -66,7 +66,7 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 - **Énergie** : Production, demande, distribution intelligente
 - **Pollution** : Impact sur le bonheur et l'environnement
 
-### 🎨 Interface Utilisateur
+### Interface Utilisateur
 
 - **Vue Carte Interactive** : Grille de construction avec zoom et défilement
 - **Panneau de Statistiques** : Argent, population, énergie, bonheur en temps réel
@@ -74,7 +74,7 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 - **Notifications** : Alertes et événements importants
 - **Système de Sauvegarde** : Sauvegardez et chargez vos parties
 
-### 🏆 Système de Progression
+### Système de Progression
 
 - **10 Niveaux de Ville** : De hameau à métropole
 - **Succès Débloquables** : Objectifs et réalisations
@@ -83,25 +83,25 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 ---
 
-## 📸 Captures d'Écran & Démo Vidéo
+## Captures d'Écran & Démo Vidéo
 
-### 🖼️ Captures (images)
+### Captures (images)
 
-| Écran                | Aperçu                                                    |
-| -------------------- | --------------------------------------------------------- |
-| Menu principal       | ![Menu principal](docs/screenshots/01-menu-principal.PNG) |
-| Carte de la ville    | ![Carte](docs/screenshots/02-carte-ville.PNG)             |
-| Construction         | ![Construction](docs/screenshots/03-construction.PNG)     |
-| Statistiques         | ![Stats](docs/screenshots/04-stats.PNG)                   |
-| Événements / alertes | ![Événements](docs/screenshots/05-evenements.PNG)         |
+| Écran | Aperçu |
+|------|--------|
+| Menu principal | ![Menu principal](docs/screenshots/01-menu-principal.png) |
+| Carte de la ville | ![Carte](docs/screenshots/02-carte-ville.png) |
+| Construction | ![Construction](docs/screenshots/03-construction.png) |
+| Statistiques | ![Stats](docs/screenshots/04-stats.png) |
+| Événements / alertes | ![Événements](docs/screenshots/05-evenements.png) |
 
-### 🎥 Démo vidéo
+### 🎥 Démo vidéo 
 
 [ouvrir la vidéo](docs/videos/demo.MP4)
 
 ---
 
-## 🔧 Prérequis
+## Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé :
 
@@ -123,7 +123,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 
 ---
 
-## 📥 Installation
+## Installation
 
 ### 1. Cloner le Dépôt
 
@@ -153,7 +153,7 @@ java -jar target/Manager-1.0-SNAPSHOT.jar
 
 ---
 
-## 🎮 Comment Jouer
+## Comment Jouer
 
 ### Démarrage
 
@@ -179,9 +179,9 @@ java -jar target/Manager-1.0-SNAPSHOT.jar
 
 ### Conditions de Victoire/Défaite
 
-**🏆 Victoire** : Atteindre le niveau 10 de ville avec un bonheur > 70%
+**Victoire** : Atteindre le niveau 10 de ville avec un bonheur > 70%
 
-**💀 Défaite** :
+**Défaite** :
 
 - Bonheur < 5% pendant 3 mois
 - Dette > 50 000€
@@ -189,7 +189,7 @@ java -jar target/Manager-1.0-SNAPSHOT.jar
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```
 Manager/
@@ -240,9 +240,9 @@ Manager/
 
 ---
 
-## 🎯 Mécaniques de Jeu
+## Mécaniques de Jeu
 
-### 🏙️ Système de Ville
+### Système de Ville
 
 La ville évolue sur **10 niveaux**, chacun débloquant :
 
@@ -268,7 +268,7 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 |  **6**  |   4 000    | Université, Centrale Nucléaire               |
 | **...** |    ...     | Et plus encore jusqu'au niveau 10 !          |
 
-### ⚡ Gestion de l'Énergie
+### Gestion de l'Énergie
 
 **Production** :
 
@@ -296,7 +296,7 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 - L'énergie est distribuée automatiquement
 - En cas de pénurie : coupures et baisse de bonheur
 
-### 💰 Économie
+### Économie
 
 **Revenus** :
 
@@ -317,7 +317,7 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 3. **Excédent** : Vendez votre surplus d'électricité !
 4. **Attention** : Les services (Police, Hôpital) coûtent cher. Ne les construisez que si votre budget le permet.
 
-### 😊 Bonheur des Citoyens
+### Bonheur des Citoyens
 
 Facteurs positifs :
 
@@ -333,14 +333,14 @@ Facteurs négatifs :
 - ❌ Manque de services
 - ❌ Surpopulation
 
-### 🌍 Pollution
+### Pollution
 
 - Les centrales à charbon polluent beaucoup
 - Les centrales nucléaires polluent peu
 - Les énergies renouvelables ne polluent pas
 - La pollution réduit le bonheur et la santé
 
-### ⏰ Gestion du Temps
+### Gestion du Temps
 
 - **1 heure de jeu** = quelques secondes réelles
 - **Cycle jour/nuit** : 24 heures
@@ -349,7 +349,7 @@ Facteurs négatifs :
 
 ---
 
-## 🛠️ Technologies Utilisées
+## Technologies Utilisées
 
 ### Langage et Framework
 
@@ -371,7 +371,7 @@ Facteurs négatifs :
 
 ---
 
-## 👨‍💻 Développement
+## Développement
 
 ### Compiler et Tester
 
@@ -413,7 +413,7 @@ Le projet suit une architecture **MVC stricte** :
 
 ---
 
-## 👥 Auteurs et Contributions
+## Auteurs et Contributions
 
 Ce projet a été réalisé en binôme avec une répartition équilibrée des tâches :
 
@@ -433,7 +433,7 @@ Ce projet a été réalisé en binôme avec une répartition équilibrée des t�
 
 ---
 
-## 📄 Licence
+## Licence
 
 Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
@@ -445,8 +445,8 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plu
 
 <div align="center">
 
-**⚡ Construisez la ville énergétique du futur ! ⚡**
+**Construisez la ville énergétique du futur !**
 
-Si vous aimez ce projet, n'oubliez pas de lui donner une ⭐ !
+Si vous aimez ce projet, n'oubliez pas de lui donner une !
 
 </div>
