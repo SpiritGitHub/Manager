@@ -89,11 +89,11 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 | Écran | Aperçu |
 |------|--------|
-| Menu principal | ![Menu principal](docs/screenshots/Acceuil.png) |
-| Carte de la ville | ![Carte](docs/screenshots/carte-ville.png) |
-| Construction | ![Construction](docs/screenshots/construction.png) |
-| Statistiques | ![Stats](docs/screenshots/stats.png) |
-| Événements / alertes | ![Événements](docs/screenshots/evenement.png) | ![Événements](docs/screenshots/evenements.png) |
+| Menu principal | ![Menu principal](docs/screenshots/Acceuil.PNG) |
+| Carte de la ville | ![Carte](docs/screenshots/carte-ville.PNG) |
+| Construction | ![Construction](docs/screenshots/construction.PNG) |
+| Statistiques | ![Stats](docs/screenshots/stats.PNG) |
+| Événements / alertes | ![Événements](docs/screenshots/evenement.PNG) | ![Événements](docs/screenshots/evenements.PNG) |
 
 ### Démo vidéo 
 
