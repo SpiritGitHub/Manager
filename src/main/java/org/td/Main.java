@@ -33,11 +33,22 @@ public class Main {
 
         // Lancer l'application JavaFX
         try {
-            Application.launch(MainView.class, args);
+            Application.launch(AppLauncher.class, args);
         } catch (Exception e) {
             System.err.println("❌ Erreur fatale au démarrage:");
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    /**
+     * Classe interne pour lancer l'application JavaFX via le WelcomeView
+     */
+    public static class AppLauncher extends Application {
+        @Override
+        public void start(javafx.stage.Stage primaryStage) {
+            org.td.view.WelcomeView welcomeView = new org.td.view.WelcomeView(primaryStage);
+            welcomeView.show();
         }
     }
 
