@@ -17,7 +17,7 @@
 
 - [À Propos](#-à-propos)
 - [Fonctionnalités](#-fonctionnalités)
-- [Captures d'Écran](#-captures-décran)
+- [Captures d'Écran & Démo Vidéo](#-captures-décran--démo-vidéo)
 - [Prérequis](#-prérequis)
 - [Installation](#-installation)
 - [Comment Jouer](#-comment-jouer)
@@ -83,9 +83,21 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 
 ---
 
-## 📸 Captures d'Écran
+## 📸 Captures d'Écran & Démo Vidéo
 
-> _Section à compléter avec des captures d'écran du jeu_
+### 🖼️ Captures (images)
+
+| Écran | Aperçu |
+|------|--------|
+| Menu principal | ![Menu principal](docs/screenshots/01-menu-principal.png) |
+| Carte de la ville | ![Carte](docs/screenshots/02-carte-ville.png) |
+| Construction | ![Construction](docs/screenshots/03-construction.png) |
+| Statistiques | ![Stats](docs/screenshots/04-stats.png) |
+| Événements / alertes | ![Événements](docs/screenshots/05-evenements.png) |
+
+### 🎥 Démo vidéo 
+
+[ouvrir la vidéo](docs/videos/demo.mp4)
 
 ---
 
@@ -375,23 +387,32 @@ Le projet suit une architecture **MVC stricte** :
 
 ---
 
+## 👥 Auteurs et Contributions
+
+Ce projet a été réalisé en binôme avec une répartition équilibrée des tâches :
+
+### **PINDRA AZHAR**
+
+- **Architecture & Noyau** : Mise en place du pattern MVC et de la structure du projet.
+- **Système de Jeu** : Développement de la boucle temporelle et de la gestion des ressources.
+- **Économie** : Implémentation du système financier (revenus, taxes, dépenses).
+- **Interface** : Conception de la fenêtre principale et des panneaux de statistiques.
+
+### **MEYEBINESSO**
+
+- **Bâtiments** : Développement du système de construction et d'amélioration.
+- **Énergie** : Logique de production des centrales et distribution d'électricité.
+- **Infrastructures** : Gestion des routes, parcs et services publics.
+- **Simulation** : Implémentation des mécaniques de population et de bonheur.
+
+---
+
 ## 📄 Licence
 
 Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
-## 👤 Auteur
-
-**PINDRA AZHAR**
-- GitHub: [@SpiritGitHub](https://github.com/SpiritGitHub)
-- Email: azharpindra03@gmail.com
-
----
-
-## 🙏 Remerciements
-
-- Inspiré par les jeux de gestion classiques comme SimCity et Cities: Skylines
 - Merci à la communauté JavaFX pour les ressources et tutoriels
 
 ---

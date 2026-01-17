@@ -153,5 +153,6 @@ htmlcov/
 !.mvn/
 !src/
 !saves/.gitkeep
-
+.zencoder
+.zenflow
 .comments

@@ -25,9 +25,9 @@ public class GameConfig {
     public static final boolean SHOW_DEBUG_INFO = false;
 
     // === GAMEPLAY ===
-    public static final double STARTING_MONEY_EASY = 70000;
-    public static final double STARTING_MONEY_NORMAL = 50000;
-    public static final double STARTING_MONEY_HARD = 35000;
+    public static final double STARTING_MONEY_EASY = 100000;
+    public static final double STARTING_MONEY_NORMAL = 75000;
+    public static final double STARTING_MONEY_HARD = 50000;
 
     public static final int GAME_OVER_HAPPINESS_THRESHOLD = 5;
     public static final double GAME_OVER_DEBT_THRESHOLD = -50000;

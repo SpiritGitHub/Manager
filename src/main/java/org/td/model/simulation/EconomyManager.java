@@ -37,7 +37,7 @@ public class EconomyManager {
      */
     public EconomyManager(City city) {
         this.city = city;
-        this.electricityPricePerKWh = 5.0; // 5 coins par kWh pour vente excess
+        this.electricityPricePerKWh = 8.0; // 8 coins par kWh pour vente excess
         this.taxRate = 5.0; // 5% de taxe
         this.inflationRate = 2.0; // 2% par an
         this.recentTransactions = new ArrayList<>();
@@ -79,8 +79,8 @@ public class EconomyManager {
 
         // === REVENUS ===
 
-        // 1. Factures des résidents (200 coins/mois = ~0.28/hour)
-        double residentBills = city.getPopulation() * 0.28; // 0.28 coins par habitant par heure
+        // 1. Factures des résidents (200 coins/mois = ~0.28/hour) -> Augmenté à ~0.50
+        double residentBills = city.getPopulation() * 0.50; // 0.50 coins par habitant par heure
         revenue += residentBills;
 
         // 2. Vente d'électricité EXCÉDENTAIRE
@@ -88,8 +88,9 @@ public class EconomyManager {
         double electricityRevenue = excessPower * electricityPricePerKWh;
         revenue += electricityRevenue;
 
-        // 3. Taxe municipale (1000 coins/mois par niveau = ~1.39/hour par niveau)
-        double cityTax = city.getLevel() * 1.39;
+        // 3. Taxe municipale (1000 coins/mois par niveau = ~1.39/hour par niveau) ->
+        // Augmenté à 5.0
+        double cityTax = city.getLevel() * 5.0;
         revenue += cityTax;
 
         // 4. Revenus des infrastructures commerciales

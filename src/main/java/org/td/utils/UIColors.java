@@ -4,19 +4,19 @@ import javafx.scene.paint.Color;
 
 /**
  * Palette de couleurs pour l'interface
- * Design moderne avec thème sombre
+ * Design moderne avec thème sombre (Slate/Teal)
  */
 public class UIColors {
 
     // === FOND ===
-    public static final Color BACKGROUND_DARK = Color.web("#0a0e1a");
-    public static final Color BACKGROUND_MEDIUM = Color.web("#1a1a2e");
-    public static final Color BACKGROUND_LIGHT = Color.web("#16213e");
+    public static final Color BACKGROUND_DARK = Color.web("#0f172a"); // Slate 900
+    public static final Color BACKGROUND_MEDIUM = Color.web("#1e293b"); // Slate 800
+    public static final Color BACKGROUND_LIGHT = Color.web("#334155"); // Slate 700
 
     // === ACCENTS ===
-    public static final Color PRIMARY = Color.web("#0f3460");
-    public static final Color PRIMARY_LIGHT = Color.web("#1a5490");
-    public static final Color SECONDARY = Color.web("#533483");
+    public static final Color PRIMARY = Color.web("#2563eb"); // Blue 600
+    public static final Color PRIMARY_LIGHT = Color.web("#3b82f6"); // Blue 500
+    public static final Color SECONDARY = Color.web("#7c3aed"); // Violet 600
 
     // === TEXTE ===
     public static final Color TEXT_PRIMARY = Color.web("#e2e8f0");
@@ -72,16 +72,17 @@ public class UIColors {
                 color.getRed(),
                 color.getGreen(),
                 color.getBlue(),
-                opacity
-        );
+                opacity);
     }
 
     /**
      * Retourne une couleur selon le pourcentage (0-100)
      */
     public static Color getColorForPercentage(double percentage) {
-        if (percentage >= 70) return SUCCESS;
-        if (percentage >= 40) return WARNING;
+        if (percentage >= 70)
+            return SUCCESS;
+        if (percentage >= 40)
+            return WARNING;
         return ERROR;
     }
 
@@ -89,8 +90,10 @@ public class UIColors {
      * Retourne une couleur selon niveau énergie
      */
     public static Color getEnergyColor(double ratio) {
-        if (ratio >= 1.0) return ENERGY_HIGH;
-        if (ratio >= 0.7) return ENERGY_MEDIUM;
+        if (ratio >= 1.0)
+            return ENERGY_HIGH;
+        if (ratio >= 0.7)
+            return ENERGY_MEDIUM;
         return ENERGY_LOW;
     }
 
@@ -98,8 +101,10 @@ public class UIColors {
      * Retourne une couleur selon bonheur
      */
     public static Color getHappinessColor(double happiness) {
-        if (happiness >= 70) return HAPPINESS_HIGH;
-        if (happiness >= 40) return HAPPINESS_MEDIUM;
+        if (happiness >= 70)
+            return HAPPINESS_HIGH;
+        if (happiness >= 40)
+            return HAPPINESS_MEDIUM;
         return HAPPINESS_LOW;
     }
 
@@ -108,12 +113,12 @@ public class UIColors {
      */
     public static String toCss(Color color) {
         return String.format("rgba(%d,%d,%d,%.2f)",
-                (int)(color.getRed() * 255),
-                (int)(color.getGreen() * 255),
-                (int)(color.getBlue() * 255),
-                color.getOpacity()
-        );
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255),
+                color.getOpacity());
     }
 
-    private UIColors() {} // Empêche l'instanciation
+    private UIColors() {
+    } // Empêche l'instanciation
 }

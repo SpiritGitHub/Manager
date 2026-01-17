@@ -62,7 +62,7 @@ public class City implements Serializable {
         this.foundationDate = LocalDateTime.of(2025, 1, 1, 0, 0);
 
         // Ressources initiales
-        this.money = 50000;
+        this.money = org.td.utils.GameConfig.STARTING_MONEY_NORMAL;
         this.happiness = 75.0;
         this.population = 0;
 
@@ -184,8 +184,7 @@ public class City implements Serializable {
      * Distribue l'électricité aux bâtiments
      */
     private void distributeElectricity() {
-        double ratio = totalEnergyDemand > 0 ?
-                totalEnergyProduction / totalEnergyDemand : 1.0;
+        double ratio = totalEnergyDemand > 0 ? totalEnergyProduction / totalEnergyDemand : 1.0;
 
         boolean hasElectricity = ratio >= 0.9; // Seuil 90%
 
@@ -243,8 +242,7 @@ public class City implements Serializable {
         double previousHappiness = happiness;
 
         // Facteur énergie
-        double energyRatio = totalEnergyDemand > 0 ?
-                totalEnergyProduction / totalEnergyDemand : 1.0;
+        double energyRatio = totalEnergyDemand > 0 ? totalEnergyProduction / totalEnergyDemand : 1.0;
 
         if (energyRatio < 0.7) {
             happiness -= 2.0; // Pénurie sévère
@@ -307,7 +305,8 @@ public class City implements Serializable {
         int hour = currentTime.getHour();
 
         // Vérification une fois par jour à minuit
-        if (hour != 0) return;
+        if (hour != 0)
+            return;
 
         // Croissance si conditions favorables
         if (happiness > 70 && energyBalance > totalEnergyDemand * 0.2) {
@@ -388,8 +387,10 @@ public class City implements Serializable {
      * Détermine le niveau de nouvelle résidence selon niveau ville
      */
     private ResidenceLevel determineResidenceLevel() {
-        if (level >= 5 && happiness > 85) return ResidenceLevel.ADVANCED;
-        if (level >= 3 && happiness > 75) return ResidenceLevel.MEDIUM;
+        if (level >= 5 && happiness > 85)
+            return ResidenceLevel.ADVANCED;
+        if (level >= 3 && happiness > 75)
+            return ResidenceLevel.MEDIUM;
         return ResidenceLevel.BASIC;
     }
 
@@ -398,13 +399,16 @@ public class City implements Serializable {
      */
     private boolean overlapsExisting(Building newBuilding) {
         for (Residence res : residences) {
-            if (newBuilding.overlaps(res)) return true;
+            if (newBuilding.overlaps(res))
+                return true;
         }
         for (PowerPlant plant : powerPlants) {
-            if (newBuilding.overlaps(plant)) return true;
+            if (newBuilding.overlaps(plant))
+                return true;
         }
         for (Infrastructure infra : infrastructures) {
-            if (newBuilding.overlaps(infra)) return true;
+            if (newBuilding.overlaps(infra))
+                return true;
         }
         return false;
     }
@@ -415,14 +419,22 @@ public class City implements Serializable {
     private void updateCityLevel() {
         int newLevel = 1;
 
-        if (population >= 5000) newLevel = 10;
-        else if (population >= 3000) newLevel = 8;
-        else if (population >= 2000) newLevel = 7;
-        else if (population >= 1500) newLevel = 6;
-        else if (population >= 1000) newLevel = 5;
-        else if (population >= 700) newLevel = 4;
-        else if (population >= 500) newLevel = 3;
-        else if (population >= 250) newLevel = 2;
+        if (population >= 5000)
+            newLevel = 10;
+        else if (population >= 3000)
+            newLevel = 8;
+        else if (population >= 2000)
+            newLevel = 7;
+        else if (population >= 1500)
+            newLevel = 6;
+        else if (population >= 1000)
+            newLevel = 5;
+        else if (population >= 700)
+            newLevel = 4;
+        else if (population >= 500)
+            newLevel = 3;
+        else if (population >= 250)
+            newLevel = 2;
 
         if (newLevel > level) {
             level = newLevel;
@@ -458,9 +470,12 @@ public class City implements Serializable {
      * Retourne le message de game over
      */
     public String getGameOverReason() {
-        if (happiness <= 5) return "Tous les habitants ont quitté la ville...";
-        if (money < -50000) return "La ville est en faillite!";
-        if (consecutiveUnhappyHours > 168) return "Le maire vous retire la gestion!";
+        if (happiness <= 5)
+            return "Tous les habitants ont quitté la ville...";
+        if (money < -50000)
+            return "La ville est en faillite!";
+        if (consecutiveUnhappyHours > 168)
+            return "Le maire vous retire la gestion!";
         return "";
     }
 
@@ -527,29 +542,84 @@ public class City implements Serializable {
                 name, level, currentTime.format(formatter),
                 population, money, happiness,
                 totalEnergyProduction, totalEnergyDemand,
-                (totalEnergyDemand > 0 ? totalEnergyProduction/totalEnergyDemand*100 : 100),
-                residences.size(), powerPlants.size(), infrastructures.size()
-        );
+                (totalEnergyDemand > 0 ? totalEnergyProduction / totalEnergyDemand * 100 : 100),
+                residences.size(), powerPlants.size(), infrastructures.size());
     }
 
     // === GETTERS ===
-    public String getName() { return name; }
-    public int getLevel() { return level; }
-    public LocalDateTime getCurrentTime() { return currentTime; }
-    public LocalDateTime getFoundationDate() { return foundationDate; }
-    public double getMoney() { return money; }
-    public double getHappiness() { return happiness; }
-    public int getPopulation() { return population; }
-    public double getTotalEnergyProduction() { return totalEnergyProduction; }
-    public double getTotalEnergyDemand() { return totalEnergyDemand; }
-    public double getEnergyBalance() { return energyBalance; }
-    public double getTotalPollution() { return totalPollution; }
-    public double getTotalRevenue() { return totalRevenue; }
-    public double getTotalExpenses() { return totalExpenses; }
-    public List<Residence> getResidences() { return residences; }
-    public List<PowerPlant> getPowerPlants() { return powerPlants; }
-    public List<Infrastructure> getInfrastructures() { return infrastructures; }
-    public List<Double> getMoneyHistory() { return moneyHistory; }
-    public List<Double> getHappinessHistory() { return happinessHistory; }
-    public List<Double> getEnergyHistory() { return energyHistory; }
+    public String getName() {
+        return name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public LocalDateTime getCurrentTime() {
+        return currentTime;
+    }
+
+    public LocalDateTime getFoundationDate() {
+        return foundationDate;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public double getHappiness() {
+        return happiness;
+    }
+
+    public int getPopulation() {
+        return population;
+    }
+
+    public double getTotalEnergyProduction() {
+        return totalEnergyProduction;
+    }
+
+    public double getTotalEnergyDemand() {
+        return totalEnergyDemand;
+    }
+
+    public double getEnergyBalance() {
+        return energyBalance;
+    }
+
+    public double getTotalPollution() {
+        return totalPollution;
+    }
+
+    public double getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public double getTotalExpenses() {
+        return totalExpenses;
+    }
+
+    public List<Residence> getResidences() {
+        return residences;
+    }
+
+    public List<PowerPlant> getPowerPlants() {
+        return powerPlants;
+    }
+
+    public List<Infrastructure> getInfrastructures() {
+        return infrastructures;
+    }
+
+    public List<Double> getMoneyHistory() {
+        return moneyHistory;
+    }
+
+    public List<Double> getHappinessHistory() {
+        return happinessHistory;
+    }
+
+    public List<Double> getEnergyHistory() {
+        return energyHistory;
+    }
 }
