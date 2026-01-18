@@ -378,7 +378,7 @@ public class City implements Serializable {
         }
 
         // Upgrade automatique de résidences
-        if (happiness > 80 && random.nextDouble() < 0.2) {
+        if (happiness > 60 && random.nextDouble() < 0.2) {
             upgradeRandomResidence();
         }
     }

@@ -62,11 +62,25 @@ public class MainView extends Application {
         notificationPanel = new NotificationPanel();
         GameOverView gameOverView = new GameOverView(gameController);
 
+        VisualAlarm visualAlarm = new VisualAlarm();
+
         StackPane centerStack = new StackPane(
                 cityMapView.getView(),
+                visualAlarm.getView(),
                 notificationPanel.getView(),
                 gameOverView // Ajouté en dernier pour être au-dessus
         );
+
+        // Liaison des alertes visuelles
+        gameController.addEventListener((message, type) -> {
+            if (type == EventType.DANGER) {
+                visualAlarm.triggerAlarm(true);
+            } else if (type == EventType.WARNING) {
+                visualAlarm.triggerAlarm(false);
+            } else {
+                visualAlarm.stopAlarm();
+            }
+        });
 
         // Liaison du contrôleur à la vue Game Over
         gameController.setGameOverHandler((reason, score) -> {
@@ -191,6 +205,7 @@ class NotificationPanel {
             case SUCCESS -> "#10b981";
             case WARNING -> "#f59e0b";
             case ERROR -> "#ef4444";
+            case DANGER -> "#b91c1c"; // Rouge foncé
         };
 
         return String.format(baseStyle, color);
@@ -198,5 +213,53 @@ class NotificationPanel {
 
     public VBox getView() {
         return container;
+    }
+}
+
+/**
+ * Overlay d'alarme visuelle (Rouge clignotant)
+ */
+class VisualAlarm {
+    private javafx.scene.layout.Region overlay;
+    private javafx.animation.Timeline pulseAnimation;
+
+    public VisualAlarm() {
+        overlay = new javafx.scene.layout.Region();
+        overlay.setStyle("-fx-background-color: transparent;");
+        overlay.setMouseTransparent(true); // Clics passent à travers
+
+        // Animation
+        pulseAnimation = new javafx.animation.Timeline(
+                new javafx.animation.KeyFrame(javafx.util.Duration.seconds(0.0),
+                        new javafx.animation.KeyValue(overlay.styleProperty(),
+                                "-fx-background-color: rgba(255, 0, 0, 0.0);")),
+                new javafx.animation.KeyFrame(javafx.util.Duration.seconds(0.5),
+                        new javafx.animation.KeyValue(overlay.styleProperty(),
+                                "-fx-background-color: rgba(255, 0, 0, 0.3);")),
+                new javafx.animation.KeyFrame(javafx.util.Duration.seconds(1.0),
+                        new javafx.animation.KeyValue(overlay.styleProperty(),
+                                "-fx-background-color: rgba(255, 0, 0, 0.0);")));
+        pulseAnimation.setCycleCount(javafx.animation.Animation.INDEFINITE);
+    }
+
+    public javafx.scene.Node getView() {
+        return overlay;
+    }
+
+    public void triggerAlarm(boolean isSevere) {
+        stopAlarm(); // Reset before starting
+        if (isSevere) {
+            // Rouge clignotant fort
+            pulseAnimation.play();
+        } else {
+            // Orange fixe (Vignette)
+            overlay.setStyle(
+                    "-fx-border-color: rgba(255, 165, 0, 0.5); -fx-border-width: 5; -fx-background-color: transparent;");
+        }
+    }
+
+    public void stopAlarm() {
+        pulseAnimation.stop();
+        overlay.setStyle("-fx-background-color: transparent;");
     }
 }

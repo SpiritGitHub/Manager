@@ -1,5 +1,5 @@
 package org.td.model.enums;
 
 public enum EventType {
-    INFO, WARNING, ERROR, SUCCESS
+    INFO, WARNING, ERROR, SUCCESS, DANGER
 }

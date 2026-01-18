@@ -44,7 +44,7 @@ public class Residence extends Building {
      * Initialise la population selon le niveau
      */
     private void initializePopulation() {
-        int basePopulation = switch(residenceLevel) {
+        int basePopulation = switch (residenceLevel) {
             case BASIC -> 20 + random.nextInt(30); // 20-50 habitants
             case MEDIUM -> 50 + random.nextInt(50); // 50-100 habitants
             case ADVANCED -> 100 + random.nextInt(100); // 100-200 habitants
@@ -105,7 +105,7 @@ public class Residence extends Building {
         }
 
         // Croissance de population si satisfaction élevée
-        if (satisfaction > 80 && hasElectricity && random.nextDouble() < 0.05) {
+        if (satisfaction > 60 && hasElectricity && random.nextDouble() < 0.05) {
             population += random.nextInt(3) + 1;
             calculateBaseEnergyDemand();
             calculateRevenue();
@@ -145,9 +145,10 @@ public class Residence extends Building {
      */
     @Override
     public boolean upgrade() {
-        if (!canUpgrade()) return false;
+        if (!canUpgrade())
+            return false;
 
-        ResidenceLevel nextLevel = switch(residenceLevel) {
+        ResidenceLevel nextLevel = switch (residenceLevel) {
             case BASIC -> ResidenceLevel.MEDIUM;
             case MEDIUM -> ResidenceLevel.ADVANCED;
             case ADVANCED -> null;

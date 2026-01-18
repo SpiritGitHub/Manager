@@ -31,8 +31,14 @@ public class BuildingUpgradeDialog {
                 HBox header = new HBox(10);
                 header.setAlignment(Pos.CENTER_LEFT);
 
-                String icon = building instanceof PowerPlant ? ((PowerPlant) building).getPlantType().getIcon()
-                                : ((Infrastructure) building).getInfrastructureType().getIcon();
+                String icon = "❓";
+                if (building instanceof PowerPlant plant) {
+                        icon = plant.getPlantType().getIcon();
+                } else if (building instanceof Infrastructure infra) {
+                        icon = infra.getInfrastructureType().getIcon();
+                } else if (building instanceof Residence) {
+                        icon = "🏠";
+                }
 
                 Label iconLabel = new Label(icon);
                 iconLabel.setStyle("-fx-font-size: 32px;");
@@ -54,6 +60,9 @@ public class BuildingUpgradeDialog {
                 addStatRow(statsGrid, row++, "📍 Position",
                                 String.format("(%d, %d)", building.getX(), building.getY()));
                 addStatRow(statsGrid, row++, "🏆 Niveau", String.valueOf(building.getLevel()));
+
+                // Residences don't have construction cost displayed usually, but we can keep it
+                // if available
                 addStatRow(statsGrid, row++, "💰 Coût construction",
                                 String.format("%.0f coins", building.getConstructionCost()));
 
@@ -70,10 +79,7 @@ public class BuildingUpgradeDialog {
                                         String.format("%.0f%%", plant.getEfficiency()));
                         addStatRow(statsGrid, row++, "📊 État",
                                         plant.isActive() ? "✅ Actif" : "❌ Inactif");
-                }
-
-                // Specific stats for Infrastructure
-                if (building instanceof Infrastructure infra) {
+                } else if (building instanceof Infrastructure infra) {
                         addStatRow(statsGrid, row++, "😊 Bonus bonheur",
                                         String.format("+%.1f", infra.getInfrastructureType().getHappinessBonus()));
                         addStatRow(statsGrid, row++, "⚡ Consommation",
@@ -82,6 +88,14 @@ public class BuildingUpgradeDialog {
                         addStatRow(statsGrid, row++, "🔧 Entretien",
                                         String.format("%.0f coins/h",
                                                         infra.getInfrastructureType().getMaintenanceCost()));
+                } else if (building instanceof Residence residence) {
+                        addStatRow(statsGrid, row++, "👥 Population", String.valueOf(residence.getPopulation()));
+                        addStatRow(statsGrid, row++, "⚡ Demande",
+                                        String.format("%.0f kWh", residence.getEnergyDemand()));
+                        addStatRow(statsGrid, row++, "😊 Satisfaction",
+                                        String.format("%.0f%%", residence.getSatisfaction()));
+                        addStatRow(statsGrid, row++, "💰 Revenu/h",
+                                        String.format("%.0f coins", residence.getRevenuePerHour()));
                 }
 
                 // Upgrade info
@@ -126,7 +140,9 @@ public class BuildingUpgradeDialog {
                 ButtonType closeBtn = new ButtonType("Fermer", ButtonBar.ButtonData.CANCEL_CLOSE);
                 ButtonType upgradeBtn = new ButtonType("⬆️ Améliorer", ButtonBar.ButtonData.OK_DONE);
 
-                if (building.canUpgrade()) {
+                // Only show upgrade button if upgradable AND NOT a residence (residences
+                // upgrade automatically)
+                if (building.canUpgrade() && !(building instanceof Residence)) {
                         dialog.getDialogPane().getButtonTypes().addAll(upgradeBtn, closeBtn);
                 } else {
                         dialog.getDialogPane().getButtonTypes().add(closeBtn);
@@ -141,11 +157,8 @@ public class BuildingUpgradeDialog {
                                         // Show updated info
                                         show(building, controller);
                                 } else {
-                                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-                                        errorAlert.setTitle("Échec de l'amélioration");
-                                        errorAlert.setHeaderText(null);
-                                        errorAlert.setContentText(result.message);
-                                        errorAlert.showAndWait();
+                                        // Use notification instead of Alert
+                                        controller.sendNotification(result.message, EventType.ERROR);
                                 }
                         }
                 });
