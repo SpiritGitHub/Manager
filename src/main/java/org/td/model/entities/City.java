@@ -85,8 +85,8 @@ public class City implements Serializable {
      * Initialise la ville de départ
      */
     private void initializeStartingCity() {
-        // Quelques résidences de base
-        for (int i = 0; i < 8; i++) {
+        // Reduit le nombre de residences pour demarrer au Niveau 1
+        for (int i = 0; i < 4; i++) { // 4 residences au lieu de 8
             int x = 100 + (i % 4) * 120;
             int y = 100 + (i / 4) * 120;
             Residence res = new Residence(ResidenceLevel.BASIC, x, y);
@@ -182,14 +182,31 @@ public class City implements Serializable {
 
     /**
      * Distribue l'électricité aux bâtiments
+     * REFACTOR: Distribution proportionnelle au lieu de tout ou rien
      */
     private void distributeElectricity() {
-        double ratio = totalEnergyDemand > 0 ? totalEnergyProduction / totalEnergyDemand : 1.0;
+        if (totalEnergyDemand <= 0)
+            return;
 
-        boolean hasElectricity = ratio >= 0.9; // Seuil 90%
+        double supplyRatio = totalEnergyProduction / totalEnergyDemand;
 
-        for (Residence res : residences) {
-            res.setHasElectricity(hasElectricity);
+        // Si ratio >= 1.0 (ou très proche), tout le monde est alimenté
+        if (supplyRatio >= 0.99) {
+            for (Residence res : residences)
+                res.setHasElectricity(true);
+            return;
+        }
+
+        // Sinon, on alimente un pourcentage aléatoire de maisons correspondant au ratio
+        // On mélange la liste pour ne pas pénaliser toujours les mêmes
+        java.util.List<Residence> shuffledResidences = new java.util.ArrayList<>(residences);
+        java.util.Collections.shuffle(shuffledResidences);
+
+        int buildingsToPower = (int) (shuffledResidences.size() * supplyRatio);
+
+        for (int i = 0; i < shuffledResidences.size(); i++) {
+            boolean hasPower = i < buildingsToPower;
+            shuffledResidences.get(i).setHasElectricity(hasPower);
         }
     }
 
@@ -238,38 +255,61 @@ public class City implements Serializable {
     /**
      * Met à jour le bonheur global
      */
+    // Manager reference for synchronization
+    private transient org.td.model.simulation.PopulationManager populationManager;
+
+    public void setPopulationManager(org.td.model.simulation.PopulationManager pm) {
+        this.populationManager = pm;
+    }
+
+    /**
+     * Met à jour le bonheur global
+     */
     private void updateHappiness() {
         double previousHappiness = happiness;
 
-        // Facteur énergie
+        // Facteur énergie (Impact direct du ratio)
         double energyRatio = totalEnergyDemand > 0 ? totalEnergyProduction / totalEnergyDemand : 1.0;
 
-        if (energyRatio < 0.7) {
-            happiness -= 2.0; // Pénurie sévère
-        } else if (energyRatio < 0.9) {
-            happiness -= 0.5; // Pénurie légère
+        // Calcul de base
+        double targetHappiness = 75.0; // Valeur de base neutre
+
+        if (energyRatio < 0.5) {
+            targetHappiness -= 30; // Pénurie critique
+        } else if (energyRatio < 0.8) {
+            targetHappiness -= 15; // Pénurie importante
         } else if (energyRatio >= 1.0) {
-            happiness += 0.2; // Approvisionnement stable
+            targetHappiness += 10; // Confort
         }
 
-        // Contribution des résidences
+        // Contribution des résidences (Satisfaction moyenne)
         if (!residences.isEmpty()) {
             double avgSatisfaction = residences.stream()
                     .mapToDouble(Residence::getSatisfaction)
                     .average()
                     .orElse(50);
-            happiness = happiness * 0.7 + avgSatisfaction * 0.3;
+            targetHappiness = (targetHappiness + avgSatisfaction) / 2.0;
         }
 
-        // Contribution des infrastructures
-        double infraBonus = infrastructures.stream()
-                .mapToDouble(Infrastructure::getHappinessContribution)
-                .sum() / Math.max(1, population / 100.0);
-        happiness += infraBonus * 0.1;
+        // REFACTOR: Synchronisation avec PopulationManager (Besoins détaillés)
+        if (populationManager != null) {
+            double needsSatisfaction = populationManager.getAverageNeedsSatisfaction();
+            // Influence forte des besoins (Santé, Sécurité, etc.)
+            targetHappiness = (targetHappiness * 0.6) + (needsSatisfaction * 0.4);
+        } else {
+            // Fallback: Contribution des infrastructures simple
+            double infraBonus = infrastructures.stream()
+                    .mapToDouble(Infrastructure::getHappinessContribution)
+                    .sum() / Math.max(1, population / 100.0);
+            targetHappiness += infraBonus * 0.1;
+        }
 
-        // Effet de la pollution
-        if (totalPollution > population / 10.0) {
-            happiness -= 0.3;
+        // Application progressive (lissage)
+        // happiness tend vers targetHappiness a vitesse reduite
+        if (happiness < targetHappiness) {
+            happiness += 0.5;
+        } else if (happiness > targetHappiness) {
+            happiness -= 0.5;
         }
 
         // Limites

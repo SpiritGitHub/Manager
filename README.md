@@ -95,7 +95,7 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 | Statistiques | ![Stats](docs/screenshots/stats.PNG) |
 | Événements / alertes | ![Événements](docs/screenshots/evenement.PNG) | ![Événements](docs/screenshots/evenements.PNG) |
 
-### 🎥 Démo vidéo 
+### Démo vidéo 
 [Voir la démo sur Vimeo](https://vimeo.com/1155556302?fl=ip&fe=ec)
 
 
@@ -280,10 +280,10 @@ La ville évolue sur **10 niveaux**, chacun débloquant :
 
 | Type             | Coût   | Pollution | Production | Note                                        |
 | :--------------- | :----- | :-------: | :--------: | :------------------------------------------ |
-| 🔥 **Charbon**   | Faible |  Élevée   |   Stable   | Idéal pour débuter, mais coûteux en charbon |
-| 💨 **Éolienne**  | Moyen  |   Nulle   |  Variable  | Dépend du vent, pas de coût de carburant    |
-| ☀️ **Solaire**   | Moyen  |   Nulle   |    Jour    | Ne produit que le jour, 100% propre         |
-| ⚛️ **Nucléaire** | Élevé  |  Faible   |  Massive   | Très puissant, demande de l'eau             |
+| **Charbon**   | Faible |  Élevée   |   Stable   | Idéal pour débuter, mais coûteux en charbon |
+| **Éolienne**  | Moyen  |   Nulle   |  Variable  | Dépend du vent, pas de coût de carburant    |
+| **Solaire**   | Moyen  |   Nulle   |    Jour    | Ne produit que le jour, 100% propre         |
+| **Nucléaire** | Élevé  |  Faible   |  Massive   | Très puissant, demande de l'eau             |
 
 **Demande** :
 
@@ -424,13 +424,13 @@ Ce projet a été réalisé en binôme avec une répartition équilibrée des t�
 - **Économie** : Implémentation du système financier (revenus, taxes, dépenses).
 - **Interface** : Conception de la fenêtre principale et des panneaux de statistiques.
 
-### **MEYEBINESSO**
+### **KAMBIA MEYEBINESSO IRENEE**
 
 - **Bâtiments** : Développement du système de construction et d'amélioration.
 - **Énergie** : Logique de production des centrales et distribution d'électricité.
 - **Infrastructures** : Gestion des routes, parcs et services publics.
 - **Simulation** : Implémentation des mécaniques de population et de bonheur.
-
+- **Simulation** : Implementation de l'interface Acceuil
 ---
 
 ## Licence

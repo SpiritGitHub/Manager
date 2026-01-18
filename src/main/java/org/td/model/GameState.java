@@ -56,6 +56,9 @@ public class GameState implements Serializable {
         this.economyManager = new EconomyManager(city);
         this.populationManager = new PopulationManager(city);
 
+        // Liaison pour synchronisation
+        this.city.setPopulationManager(this.populationManager);
+
         // Objectifs et succès
         this.achievements = new ArrayList<>();
         this.currentObjectives = new ArrayList<>();
@@ -73,43 +76,35 @@ public class GameState implements Serializable {
         achievements.add(new Achievement(
                 "Premier Pas",
                 "Construire votre première centrale",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Métropole",
                 "Atteindre 1000 habitants",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Millionnaire",
                 "Avoir 100 000€ en caisse",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Ville Verte",
                 "100% d'énergie renouvelable",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Ville Heureuse",
                 "Maintenir 90% de bonheur pendant 30 jours",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Survivant",
                 "Survivre 1 an de jeu",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Expert Énergétique",
                 "Avoir 10 centrales actives",
-                false
-        ));
+                false));
         achievements.add(new Achievement(
                 "Mégapole",
                 "Atteindre 5000 habitants",
-                false
-        ));
+                false));
     }
 
     /**
@@ -120,8 +115,7 @@ public class GameState implements Serializable {
                 "Objectif de départ",
                 "Atteindre 500 habitants",
                 ObjectiveType.POPULATION,
-                500
-        ));
+                500));
         currentObjectives.add(new Objective(
                 "Stabilité énergétique",
                 "Maintenir 100% de couverture pendant 7 jours",
@@ -134,7 +128,7 @@ public class GameState implements Serializable {
      * Applique la difficulté choisie
      */
     private void applyDifficulty() {
-        switch(difficulty) {
+        switch (difficulty) {
             case 1: // Facile
                 city.spendMoney(-20000); // +20k bonus
                 break;
@@ -149,7 +143,8 @@ public class GameState implements Serializable {
      * Met à jour l'état du jeu (appelé chaque frame/tick)
      */
     public void update() {
-        if (status != GameStatus.PLAYING) return;
+        if (status != GameStatus.PLAYING)
+            return;
 
         // Mise à jour des gestionnaires
         energySimulator.update();
@@ -171,9 +166,10 @@ public class GameState implements Serializable {
      */
     private void checkObjectives() {
         for (Objective objective : new ArrayList<>(currentObjectives)) {
-            if (objective.isCompleted()) continue;
+            if (objective.isCompleted())
+                continue;
 
-            boolean completed = switch(objective.getType()) {
+            boolean completed = switch (objective.getType()) {
                 case POPULATION -> city.getPopulation() >= objective.getTarget();
                 case ENERGY -> energySimulator.getCoverageRate() >= 100;
                 case MONEY -> city.getMoney() >= objective.getTarget();
@@ -200,9 +196,10 @@ public class GameState implements Serializable {
      */
     private void checkAchievements() {
         for (Achievement achievement : achievements) {
-            if (achievement.isUnlocked()) continue;
+            if (achievement.isUnlocked())
+                continue;
 
-            boolean unlocked = switch(achievement.getName()) {
+            boolean unlocked = switch (achievement.getName()) {
                 case "Premier Pas" -> city.getPowerPlants().size() > 0;
                 case "Métropole" -> city.getPopulation() >= 1000;
                 case "Millionnaire" -> city.getMoney() >= 100000;
@@ -227,11 +224,10 @@ public class GameState implements Serializable {
      */
     private boolean isFullyRenewable() {
         return city.getPowerPlants().stream()
-                .allMatch(plant ->
-                        plant instanceof SolarPlant ||
-                                plant instanceof WindTurbine ||
-                                plant.getType().contains("Hydro") ||
-                                plant.getType().contains("Geothermal"));
+                .allMatch(plant -> plant instanceof SolarPlant ||
+                        plant instanceof WindTurbine ||
+                        plant.getType().contains("Hydro") ||
+                        plant.getType().contains("Geothermal"));
     }
 
     /**
@@ -320,10 +316,10 @@ public class GameState implements Serializable {
         score += Math.min(3000, city.getPopulation());
 
         // Argent (max 2000 points)
-        score += Math.min(2000, (int)(city.getMoney() / 100));
+        score += Math.min(2000, (int) (city.getMoney() / 100));
 
         // Bonheur (max 1500 points)
-        score += (int)(city.getHappiness() * 15);
+        score += (int) (city.getHappiness() * 15);
 
         // Succès (500 points chacun)
         score += achievementsUnlocked * 500;
@@ -346,9 +342,8 @@ public class GameState implements Serializable {
     private int getGameYears() {
         Duration duration = Duration.between(
                 city.getFoundationDate(),
-                city.getCurrentTime()
-        );
-        return (int)(duration.toDays() / 365);
+                city.getCurrentTime());
+        return (int) (duration.toDays() / 365);
     }
 
     // === GETTERS ===
@@ -427,10 +422,21 @@ class Achievement implements Serializable {
         this.unlockedDate = LocalDateTime.now();
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public boolean isUnlocked() { return unlocked; }
-    public LocalDateTime getUnlockedDate() { return unlockedDate; }
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public LocalDateTime getUnlockedDate() {
+        return unlockedDate;
+    }
 }
 
 /**
@@ -455,15 +461,37 @@ class Objective implements Serializable {
         this.completed = false;
     }
 
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public ObjectiveType getType() { return type; }
-    public double getTarget() { return target; }
-    public double getProgress() { return progress; }
-    public boolean isCompleted() { return completed; }
+    public String getName() {
+        return name;
+    }
 
-    public void setProgress(double progress) { this.progress = progress; }
-    public void setCompleted(boolean completed) { this.completed = completed; }
+    public String getDescription() {
+        return description;
+    }
+
+    public ObjectiveType getType() {
+        return type;
+    }
+
+    public double getTarget() {
+        return target;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     public double getProgressPercentage() {
         return (progress / target) * 100.0;

@@ -101,6 +101,18 @@ public class BuildingController {
                     String.format("Budget insuffisant (requis: %.0f €)", cost));
         }
 
+        // REFACTOR: Contrainte de construction (Niveau <= 2 : Max 1 centrale par type)
+        if (city.getLevel() <= 2) {
+            long existingCount = city.getPowerPlants().stream()
+                    .filter(p -> p.getType().equals(type.getDisplayName()))
+                    .count();
+
+            if (existingCount >= 1) {
+                return new BuildResult(false,
+                        "Niveau 3 requis pour avoir plusieurs centrales du même type !");
+            }
+        }
+
         // Créer la centrale
         PowerPlant plant = createPowerPlant(type, 1, x, y);
         if (plant == null) {

@@ -63,24 +63,25 @@ public class EnergySimulator {
 
         double ratio = production / demand;
 
-        // Stabilité optimale entre 1.0 et 1.2 (production légèrement supérieure)
-        if (ratio >= 1.0 && ratio <= 1.2) {
-            gridStability = Math.min(100, gridStability + 0.5);
-        } else if (ratio < 0.7) {
-            // Pénurie sévère
-            gridStability = Math.max(0, gridStability - 3.0);
-        } else if (ratio < 0.9) {
-            // Pénurie légère
+        // Stabilité optimale entre 1.0 et 1.25 (production légèrement supérieure)
+        // REFACTOR: Logique plus souple pour éviter les chutes drastiques
+        if (ratio >= 1.0 && ratio <= 1.25) {
+            gridStability = Math.min(100, gridStability + 1.0);
+        } else if (ratio < 0.8) {
+            // Pénurie importante
             gridStability = Math.max(0, gridStability - 1.0);
+        } else if (ratio < 1.0) {
+            // Pénurie légère
+            gridStability = Math.max(0, gridStability - 0.2);
         } else if (ratio > 1.5) {
             // Surproduction excessive (gaspillage)
-            gridStability = Math.max(80, gridStability - 0.2);
+            gridStability = Math.max(90, gridStability - 0.1);
         }
 
         // Impact des centrales mal entretenues
         for (PowerPlant plant : city.getPowerPlants()) {
-            if (plant.getEfficiency() < 0.5) {
-                gridStability = Math.max(0, gridStability - 0.1);
+            if (plant.getEfficiency() < 0.4) { // Seuil abaissé à 40%
+                gridStability = Math.max(0, gridStability - 0.05);
             }
         }
     }
@@ -145,7 +146,7 @@ public class EnergySimulator {
         totalOutages++;
 
         System.out.println("⚠️ PANNE ÉLECTRIQUE: " + cause +
-                " (" + (int)affectedPercentage + "% affecté, " +
+                " (" + (int) affectedPercentage + "% affecté, " +
                 duration + "h)");
     }
 
@@ -186,7 +187,8 @@ public class EnergySimulator {
      */
     public double getCoverageRate() {
         double demand = city.getTotalEnergyDemand();
-        if (demand == 0) return 100.0;
+        if (demand == 0)
+            return 100.0;
 
         double production = city.getTotalEnergyProduction();
         double available = production * (1 - transmissionLoss / 100.0);
@@ -199,7 +201,8 @@ public class EnergySimulator {
      */
     public double getAverageEfficiency() {
         List<PowerPlant> plants = city.getPowerPlants();
-        if (plants.isEmpty()) return 0;
+        if (plants.isEmpty())
+            return 0;
 
         return plants.stream()
                 .mapToDouble(PowerPlant::getEfficiency)
@@ -221,7 +224,8 @@ public class EnergySimulator {
      */
     public double getReserveCapacity() {
         double demand = city.getTotalEnergyDemand();
-        if (demand == 0) return 100.0;
+        if (demand == 0)
+            return 100.0;
 
         double production = city.getTotalEnergyProduction();
         return ((production - demand) / demand) * 100.0;

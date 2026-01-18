@@ -1,6 +1,5 @@
 package org.td.model.simulation;
 
-
 import org.td.model.enums.BuildingType;
 import org.td.model.entities.*;
 
@@ -73,11 +72,13 @@ public class PopulationManager {
      */
     private void updateNeeds() {
         int population = city.getPopulation();
-        if (population == 0) return;
+        if (population == 0)
+            return;
 
         // Énergie
-        double energyRatio = city.getTotalEnergyDemand() > 0 ?
-                city.getTotalEnergyProduction() / city.getTotalEnergyDemand() : 1.0;
+        double energyRatio = city.getTotalEnergyDemand() > 0
+                ? city.getTotalEnergyProduction() / city.getTotalEnergyDemand()
+                : 1.0;
         needsSatisfaction.put("Énergie", Math.min(100, energyRatio * 100));
 
         // Santé (basé sur hôpitaux)
@@ -125,10 +126,12 @@ public class PopulationManager {
      */
     private void handleNaturalGrowth() {
         int hour = city.getCurrentTime().getHour();
-        if (hour != 0) return; // Une fois par jour
+        if (hour != 0)
+            return; // Une fois par jour
 
         int population = city.getPopulation();
-        if (population == 0) return;
+        if (population == 0)
+            return;
 
         // Taux de naissance quotidien
         double dailyBirthRate = birthRate / 1000.0 / 365.0;
@@ -138,8 +141,7 @@ public class PopulationManager {
             // Ajoute des habitants à une résidence aléatoire
             if (!city.getResidences().isEmpty()) {
                 Residence residence = city.getResidences().get(
-                        random.nextInt(city.getResidences().size())
-                );
+                        random.nextInt(city.getResidences().size()));
                 // La croissance est gérée dans Residence.update()
             }
         }
@@ -150,7 +152,8 @@ public class PopulationManager {
      */
     private void handleMigration() {
         int hour = city.getCurrentTime().getHour();
-        if (hour % 6 != 0) return; // Toutes les 6 heures
+        if (hour % 6 != 0)
+            return; // Toutes les 6 heures
 
         double happiness = city.getHappiness();
         double avgNeedsSatisfaction = needsSatisfaction.values().stream()
@@ -163,18 +166,18 @@ public class PopulationManager {
 
         // Immigration si ville attractive
         if (attractiveness > 60 && random.nextDouble() < 0.3) {
-            handleImmigration((int)((attractiveness - 60) / 10));
+            handleImmigration((int) ((attractiveness - 60) / 10));
         }
 
         // Émigration si ville peu attractive
         if (attractiveness < 40 && random.nextDouble() < 0.4) {
-            handleEmigration((int)((40 - attractiveness) / 10));
+            handleEmigration((int) ((40 - attractiveness) / 10));
         }
 
         // Calcul taux de migration
         int currentPop = city.getPopulation();
         if (previousPopulation > 0) {
-            migrationRate = ((double)(currentPop - previousPopulation) /
+            migrationRate = ((double) (currentPop - previousPopulation) /
                     previousPopulation) * 100;
         }
         previousPopulation = currentPop;
@@ -200,8 +203,7 @@ public class PopulationManager {
             // Réduction de population dans résidences existantes
             for (int i = 0; i < Math.min(intensity, city.getResidences().size()); i++) {
                 Residence residence = city.getResidences().get(
-                        random.nextInt(city.getResidences().size())
-                );
+                        random.nextInt(city.getResidences().size()));
                 // La réduction est gérée dans Residence.update()
             }
             emigrationCount += 3 + random.nextInt(intensity * 2);
@@ -224,8 +226,9 @@ public class PopulationManager {
      */
     public double getPopulationDensity() {
         int residences = city.getResidences().size();
-        if (residences == 0) return 0;
-        return (double)city.getPopulation() / residences;
+        if (residences == 0)
+            return 0;
+        return (double) city.getPopulation() / residences;
     }
 
     /**
@@ -252,7 +255,7 @@ public class PopulationManager {
             double satisfaction = entry.getValue();
 
             if (satisfaction < 30) {
-                String recommendation = switch(need) {
+                String recommendation = switch (need) {
                     case "Santé" -> "🏥 Construire un hôpital d'urgence";
                     case "Éducation" -> "🏫 Construire des écoles";
                     case "Sécurité" -> "🚓 Construire commissariat/caserne";
@@ -310,10 +313,7 @@ public class PopulationManager {
      * Calcule le score de qualité de vie (0-100)
      */
     public double getQualityOfLifeScore() {
-        double avgNeeds = needsSatisfaction.values().stream()
-                .mapToDouble(Double::doubleValue)
-                .average()
-                .orElse(50);
+        double avgNeeds = getAverageNeedsSatisfaction();
 
         double happiness = city.getHappiness();
 
@@ -322,6 +322,16 @@ public class PopulationManager {
 
         return Math.max(0, Math.min(100,
                 (avgNeeds * 0.5 + happiness * 0.5) - pollutionPenalty));
+    }
+
+    /**
+     * Retourne la satisfaction moyenne des besoins
+     */
+    public double getAverageNeedsSatisfaction() {
+        return needsSatisfaction.values().stream()
+                .mapToDouble(Double::doubleValue)
+                .average()
+                .orElse(50.0);
     }
 
     // Getters

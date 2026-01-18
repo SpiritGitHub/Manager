@@ -8,68 +8,62 @@ public enum PowerPlantType {
     COAL(
             "Centrale à Charbon",
             "🏭",
-            500, // Production de base (kWh)
-            2500, // Coût de construction (coins) - reduced from 5000
-            10, // Maintenance par heure (coins) - reduced from 30
-            8.0, // Niveau de pollution (0-10)
+            600, // Production (kWh) - Increased
+            3000, // Coût (coins)
+            15, // Maintenance
+            8.0, // Pollution
             "Production stable et peu coûteuse, mais très polluante",
-            1// Niveau ville minimum requis
-    ),
+            1),
 
     SOLAR(
             "Centrale Solaire",
             "☀️",
-            300, // Production de base (kWh)
-            7500, // Coût de construction (coins) - reduced from 15000
-            5, // Maintenance par heure (coins) - reduced from 10
-            0.5, // Niveau de pollution (0-10)
+            350, // Production (kWh) - Increased
+            6000, // Coût (coins) - Optimized
+            5, // Maintenance
+            0.5, // Pollution
             "Énergie propre mais production variable selon l'ensoleillement",
-            1// Niveau ville minimum requis
-    ),
+            1),
 
     WIND(
             "Éolienne",
             "💨",
-            200, // Production de base (kWh)
-            4000, // Coût de construction (coins) - reduced from 8000
-            5, // Maintenance par heure (coins) - reduced from 20
-            0.2, // Niveau de pollution (0-10)
+            250, // Production (kWh) - Increased
+            3500, // Coût (coins)
+            8, // Maintenance
+            0.2, // Pollution
             "Énergie propre, production dépend du vent",
-            2// Niveau ville minimum requis
-    ),
+            2),
 
     NUCLEAR(
             "Centrale Nucléaire",
             "☢️",
-            2000, // Production de base (kWh)
-            25000, // Coût de construction (coins) - reduced from 50000
-            20, // Maintenance par heure (coins) - reduced from 150
-            2.0, // Niveau de pollution (0-10)
+            2500, // Production (kWh) - Massive increase for distinct tier
+            25000, // Coût (coins)
+            50, // Maintenance - Increased
+            2.0, // Pollution
             "Production massive et stable, nécessite maintenance stricte",
-            5// Niveau ville minimum requis
-    ),
+            5),
 
     HYDRO(
             "Centrale Hydraulique",
             "🌊",
-            800, // Production de base (kWh)
-            12500, // Coût de construction (coins) - reduced from 25000
-            8, // Maintenance par heure (coins) - reduced from 40
-            1.0, // Niveau de pollution (0-10)
+            900, // Production (kWh)
+            12000, // Coût (coins)
+            12, // Maintenance
+            1.0, // Pollution
             "Production stable et propre, nécessite un cours d'eau",
-            3// Niveau ville minimum requis
-    ),
+            3),
 
     GEOTHERMAL(
             "Centrale Géothermique",
             "🌋",
-            600, // Production de base (kWh)
-            10000, // Coût de construction (coins) - reduced from 20000
-            10, // Maintenance par heure (coins) - reduced from 50
-            0.8, // Niveau de pollution (0-10)
+            750, // Production (kWh)
+            10000, // Coût (coins)
+            10, // Maintenance
+            0.8, // Pollution
             "Énergie constante et propre, nécessite zone géothermique",
-            4// Niveau ville minimum requis
-    );
+            4);
 
     private final String displayName;
     private final String icon;
