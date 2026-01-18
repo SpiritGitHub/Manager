@@ -22,6 +22,7 @@ public class GameState implements Serializable {
     private EnergySimulator energySimulator;
     private EconomyManager economyManager;
     private PopulationManager populationManager;
+    private RandomEventManager randomEventManager; // Nouveau
 
     // État du jeu
     private GameStatus status;
@@ -55,6 +56,7 @@ public class GameState implements Serializable {
         this.energySimulator = new EnergySimulator(city);
         this.economyManager = new EconomyManager(city);
         this.populationManager = new PopulationManager(city);
+        this.randomEventManager = new RandomEventManager(city); // Nouveau
 
         // Liaison pour synchronisation
         this.city.setPopulationManager(this.populationManager);
@@ -148,8 +150,10 @@ public class GameState implements Serializable {
 
         // Mise à jour des gestionnaires
         energySimulator.update();
+        energySimulator.update();
         economyManager.update();
         populationManager.update();
+        randomEventManager.update(); // Mettre à jour les événements
 
         // Vérification objectifs et succès
         checkObjectives();
@@ -366,6 +370,10 @@ public class GameState implements Serializable {
 
     public PopulationManager getPopulationManager() {
         return populationManager;
+    }
+
+    public RandomEventManager getRandomEventManager() {
+        return randomEventManager;
     }
 
     public GameStatus getStatus() {

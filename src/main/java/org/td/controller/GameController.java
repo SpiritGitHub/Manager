@@ -84,6 +84,11 @@ public class GameController {
 
         // Écouter les événements du TimeManager
         setupTimeListeners();
+
+        // Écouter les événements aléatoires
+        gameState.getRandomEventManager().addListener((msg, type) -> {
+            javafx.application.Platform.runLater(() -> sendNotification(msg, type));
+        });
     }
 
     /**
@@ -115,6 +120,11 @@ public class GameController {
             @Override
             public void onGameOver(String reason) {
                 Platform.runLater(() -> handleGameOver(reason));
+            }
+
+            @Override
+            public void onWarning(String message) {
+                Platform.runLater(() -> notifyWarning(message));
             }
         });
     }

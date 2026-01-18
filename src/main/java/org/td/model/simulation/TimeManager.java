@@ -149,9 +149,14 @@ public class TimeManager {
         boolean isBlackout = energyDemand > 0 && (energyProduction / energyDemand < 0.5);
 
         if (isBlackout) {
-            consecutiveZeroHappiness++; // On réutilise cette variable ou on en crée une propre
-            // TODO: Renommer la variable pour être plus clair, mais pour l'instant ça
-            // marche
+            consecutiveZeroHappiness++;
+
+            // Warnings pour prévenir le joueur
+            if (consecutiveZeroHappiness == 12) {
+                notifyWarning("⚠️ ATTENTION : Black-out prolongé ! Risque d'émeutes.");
+            } else if (consecutiveZeroHappiness == 36) {
+                notifyWarning("🚨 DANGER : Émeutes imminentes ! Rétablissez le courant VITE !");
+            }
         } else {
             // On ne reset que si le bonheur est AUSSI bon.
             // Si on a du courant mais que les gens sont malheureux (0%), on garde le
@@ -161,9 +166,9 @@ public class TimeManager {
             }
         }
 
-        // Seuil: 24h de crise (blackout OU bonheur nulle)
-        if (consecutiveZeroHappiness >= 24) {
-            city.setGameOverReason("ÉMEUTES ! La ville a subi un black-out total pendant trop longtemps. (24h)");
+        // Seuil: 48h de crise (au lieu de 24h)
+        if (consecutiveZeroHappiness >= 48) {
+            city.setGameOverReason("ÉMEUTES ! La ville a subi un black-out total pendant trop longtemps. (48h)");
             notifyGameOver();
             pause();
         }
@@ -295,6 +300,12 @@ public class TimeManager {
     private void notifyGameOver() {
         for (TimeListener listener : listeners) {
             listener.onGameOver(city.getGameOverReason());
+        }
+    }
+
+    private void notifyWarning(String message) {
+        for (TimeListener listener : listeners) {
+            listener.onWarning(message);
         }
     }
 

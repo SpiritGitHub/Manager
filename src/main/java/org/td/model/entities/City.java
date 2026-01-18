@@ -40,6 +40,10 @@ public class City implements Serializable {
     private int consecutiveHappyHours; // Heures consécutives avec bonheur > 70
     private int consecutiveUnhappyHours; // Heures consécutives avec bonheur < 30
 
+    // Multiplicateurs d'événements
+    private double globalEnergyDemandMultiplier = 1.0;
+    private double globalRevenueMultiplier = 1.0;
+
     // Game Over stats
     private boolean isGameOver = false;
     private String gameOverReason = "";
@@ -178,6 +182,9 @@ public class City implements Serializable {
                 .mapToDouble(Infrastructure::getEnergyConsumption)
                 .sum();
 
+        // Application du multiplicateur d'événement (ex: Canicule)
+        totalEnergyDemand *= globalEnergyDemandMultiplier;
+
         energyBalance = totalEnergyProduction - totalEnergyDemand;
 
         // Distribution d'électricité
@@ -230,6 +237,9 @@ public class City implements Serializable {
         totalRevenue += infrastructures.stream()
                 .mapToDouble(Infrastructure::getHourlyRevenue)
                 .sum();
+
+        // Application du multiplicateur d'événement (ex: Crise économique)
+        totalRevenue *= globalRevenueMultiplier;
 
         // Dépenses des centrales
         totalExpenses += powerPlants.stream()
@@ -675,5 +685,21 @@ public class City implements Serializable {
 
     public List<Double> getEnergyHistory() {
         return energyHistory;
+    }
+
+    public void setGlobalEnergyDemandMultiplier(double multiplier) {
+        this.globalEnergyDemandMultiplier = multiplier;
+    }
+
+    public void setGlobalRevenueMultiplier(double multiplier) {
+        this.globalRevenueMultiplier = multiplier;
+    }
+
+    public double getGlobalEnergyDemandMultiplier() {
+        return globalEnergyDemandMultiplier;
+    }
+
+    public double getGlobalRevenueMultiplier() {
+        return globalRevenueMultiplier;
     }
 }
