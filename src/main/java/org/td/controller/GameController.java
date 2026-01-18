@@ -209,16 +209,50 @@ public class GameController {
         notifyEvent(report.toString());
     }
 
+    // Interface fonctionnelle pour gérer le Game Over depuis la vue
+    public interface GameOverHandler {
+        void onGameOver(String reason, int score);
+    }
+
+    private GameOverHandler gameOverHandler;
+
+    public void setGameOverHandler(GameOverHandler handler) {
+        this.gameOverHandler = handler;
+    }
+
     /**
      * Gère le game over
      */
     private void handleGameOver(String reason) {
         notifyEvent("🎮 GAME OVER: " + reason);
-        notifyEvent("Score final: " + gameState.calculateScore());
+        int finalScore = gameState.calculateScore();
+        notifyEvent("Score final: " + finalScore);
 
-        // Génère rapport final
-        String finalReport = gameState.generateFullReport();
-        System.out.println(finalReport);
+        if (gameOverHandler != null) {
+            gameOverHandler.onGameOver(reason, finalScore);
+        } else {
+            // Fallback console si pas de vue attachée
+            System.err.println("GAME OVER: " + reason);
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Redémarre le jeu
+     */
+    public void restartGame() {
+        // Stop current game
+        if (gameState != null && gameState.getTimeManager() != null) {
+            gameState.getTimeManager().stop();
+        }
+
+        // Create new state
+        this.gameState = new GameState("ÉnergiVille", "Joueur", 2);
+        initialize(); // Re-bind properties and controllers
+
+        // Restart logic
+        startGame();
+        notifyEvent("🔄 Nouvelle partie commencée !");
     }
 
     /**

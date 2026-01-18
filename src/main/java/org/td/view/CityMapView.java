@@ -49,7 +49,10 @@ public class CityMapView {
         scrollPane.setPannable(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setStyle(UIStyles.SCROLLBAR);
+        // Important: Mettre le fond du ScrollPane en sombre pour éviter le blanc lors
+        // du redimensionnement
+        scrollPane.setStyle(UIStyles.SCROLLBAR + "-fx-background: " + UIColors.toCss(UIColors.BACKGROUND_DARK) + ";" +
+                "-fx-background-color: " + UIColors.toCss(UIColors.BACKGROUND_DARK) + ";");
 
         tooltip = new Tooltip();
         tooltip.setStyle(UIStyles.TOOLTIP);
@@ -165,6 +168,10 @@ public class CityMapView {
     }
 
     private void startRenderLoop() {
+        // Fix: On retire le binding qui cassait le rendu
+        // canvas.widthProperty().bind(container.widthProperty());
+        // canvas.heightProperty().bind(container.heightProperty());
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -181,6 +188,7 @@ public class CityMapView {
         try {
             // Fond
             gc.setFill(UIColors.BACKGROUND_DARK);
+            // On dessine le fond sur toute la taille du canvas fixe
             gc.fillRect(0, 0, GameConfig.CANVAS_WIDTH, GameConfig.CANVAS_HEIGHT);
 
             // Grille

@@ -372,9 +372,18 @@ public class BuildingController {
      */
     public List<Building> getAllBuildings() {
         List<Building> all = new ArrayList<>();
-        all.addAll(city.getResidences());
-        all.addAll(city.getPowerPlants());
-        all.addAll(city.getInfrastructures());
+        // Filtrer les nulls éventuels et éviter les doublons si les listes sont mal
+        // gérées
+        if (city.getResidences() != null)
+            all.addAll(city.getResidences());
+        if (city.getPowerPlants() != null)
+            all.addAll(city.getPowerPlants());
+        if (city.getInfrastructures() != null)
+            all.addAll(city.getInfrastructures());
+
+        // Nettoyage de sécurité
+        all.removeAll(Collections.singleton(null));
+
         return all;
     }
 

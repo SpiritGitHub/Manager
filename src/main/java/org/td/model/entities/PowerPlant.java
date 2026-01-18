@@ -26,7 +26,7 @@ public abstract class PowerPlant extends Building {
      * Constructeur
      */
     public PowerPlant(PowerPlantType type, int level, int x, int y,
-                      double maxProduction, double constructionCost) {
+            double maxProduction, double constructionCost) {
         super(level, x, y);
         this.plantType = type;
         this.maxProduction = maxProduction;
@@ -35,9 +35,8 @@ public abstract class PowerPlant extends Building {
         this.constructionCost = constructionCost;
         this.totalEnergyProduced = 0;
         this.hoursSinceLastMaintenance = 0;
-        this.maintenanceInterval = 720; // 30 jours par défaut
+        this.maintenanceInterval = 168; // Maintenance requise tous les 7 jours (au lieu de 30)
     }
-
 
     /**
      * Mise à jour de la centrale (chaque heure de jeu)
@@ -66,21 +65,25 @@ public abstract class PowerPlant extends Building {
             applyMaintenancePenalty();
         }
     }
+
     /**
      * Calcule la production actuelle (à surcharger par sous-classes si nécessaire)
      */
-    protected void updateProduction() {
-        currentProduction = maxProduction * efficiency;
-    }
-
-    /**
-     * Dégrade l'efficacité au fil du temps
-     */
     protected void degradeEfficiency() {
-        // Dégradation progressive (0.01% par heure)
-        efficiency = Math.max(0.5, efficiency - 0.0001);
+        // Dégradation beaucoup plus rapide pour forcer le joueur à agir
+        // 0.2% par heure -> ~20 jours (480h) avant 0% sans aucune maintenance
+        // Mais en réalité, le seuil de panne (<20%) sera atteint bien avant
+        efficiency = Math.max(0.0, efficiency - 0.002);
     }
 
+    protected void updateProduction() {
+        // Si l'efficacité est trop basse (< 20%), la centrale s'arrête (panne)
+        if (efficiency < 0.2) {
+            currentProduction = 0;
+        } else {
+            currentProduction = maxProduction * efficiency;
+        }
+    }
 
     /**
      * Effectue la maintenance de la centrale
@@ -97,7 +100,8 @@ public abstract class PowerPlant extends Building {
      */
     @Override
     public boolean upgrade() {
-        if (!canUpgrade()) return false;
+        if (!canUpgrade())
+            return false;
 
         level++;
         maxProduction *= 1.5; // +50% de production
@@ -128,10 +132,14 @@ public abstract class PowerPlant extends Building {
      * Retourne le statut de la centrale
      */
     public String getStatus() {
-        if (!isActive) return "Inactive";
-        if (isUnderConstruction) return "En construction";
-        if (efficiency < 0.5) return "Nécessite maintenance urgente";
-        if (efficiency < 0.7) return "Maintenance recommandée";
+        if (!isActive)
+            return "Inactive";
+        if (isUnderConstruction)
+            return "En construction";
+        if (efficiency < 0.5)
+            return "Nécessite maintenance urgente";
+        if (efficiency < 0.7)
+            return "Maintenance recommandée";
         return "Opérationnelle";
     }
 
@@ -141,7 +149,7 @@ public abstract class PowerPlant extends Building {
     /**
      * Vérifie si la maintenance est nécessaire
      */
-    public boolean needsMaintenance() {  // ✅ PUBLIC et retourne BOOLEAN
+    public boolean needsMaintenance() { // ✅ PUBLIC et retourne BOOLEAN
         return efficiency < 0.7 || hoursSinceLastMaintenance >= maintenanceInterval;
     }
 
@@ -149,8 +157,10 @@ public abstract class PowerPlant extends Building {
      * Appelé quand la maintenance n'est pas effectuée à temps
      */
     protected void applyMaintenancePenalty() {
-        // Réduction supplémentaire d'efficacité si pas entretenue
-        efficiency = Math.max(0.3, efficiency - 0.05);
+        // Réduction BRUTALE d'efficacité si pas entretenue
+        // -5% d'efficacité par heure de retard !
+        // Si le joueur ignore l'alerte, la centrale meurt en quelques heures.
+        efficiency = Math.max(0.0, efficiency - 0.05);
     }
 
     @Override
@@ -177,8 +187,7 @@ public abstract class PowerPlant extends Building {
                 efficiency * 100,
                 getHourlyCost(),
                 pollutionLevel,
-                getStatus()
-        );
+                getStatus());
     }
 
     // Getters

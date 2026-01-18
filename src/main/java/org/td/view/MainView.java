@@ -60,10 +60,18 @@ public class MainView extends Application {
 
         cityMapView = new CityMapView(gameController);
         notificationPanel = new NotificationPanel();
+        GameOverView gameOverView = new GameOverView(gameController);
 
         StackPane centerStack = new StackPane(
                 cityMapView.getView(),
-                notificationPanel.getView());
+                notificationPanel.getView(),
+                gameOverView // Ajouté en dernier pour être au-dessus
+        );
+
+        // Liaison du contrôleur à la vue Game Over
+        gameController.setGameOverHandler((reason, score) -> {
+            gameOverView.show(reason, score);
+        });
 
         root.setCenter(centerStack);
 

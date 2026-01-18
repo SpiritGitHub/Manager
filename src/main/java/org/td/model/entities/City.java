@@ -40,6 +40,10 @@ public class City implements Serializable {
     private int consecutiveHappyHours; // Heures consécutives avec bonheur > 70
     private int consecutiveUnhappyHours; // Heures consécutives avec bonheur < 30
 
+    // Game Over stats
+    private boolean isGameOver = false;
+    private String gameOverReason = "";
+
     // Collections de bâtiments
     private List<Residence> residences;
     private List<PowerPlant> powerPlants;
@@ -219,7 +223,8 @@ public class City implements Serializable {
 
         // Revenus des résidences (vente électricité)
         double energySold = Math.min(totalEnergyProduction, totalEnergyDemand);
-        totalRevenue += energySold * 0.15; // 0.15€ par kWh
+        // Baisse du prix de vente pour rendre le jeu plus difficile (0.15 -> 0.08)
+        totalRevenue += energySold * 0.08;
 
         // Revenus des infrastructures
         totalRevenue += infrastructures.stream()
@@ -275,9 +280,9 @@ public class City implements Serializable {
         double targetHappiness = 75.0; // Valeur de base neutre
 
         if (energyRatio < 0.5) {
-            targetHappiness -= 30; // Pénurie critique
+            targetHappiness = 0; // Blackout = Bonheur 0 direct. Pas de pitié.
         } else if (energyRatio < 0.8) {
-            targetHappiness -= 15; // Pénurie importante
+            targetHappiness -= 30; // Pénurie importante
         } else if (energyRatio >= 1.0) {
             targetHappiness += 10; // Confort
         }
@@ -305,11 +310,11 @@ public class City implements Serializable {
         }
 
         // Application progressive (lissage)
-        // happiness tend vers targetHappiness a vitesse reduite
+        // Modification: Réaction plus rapide (2.0 au lieu de 0.5)
         if (happiness < targetHappiness) {
-            happiness += 0.5;
+            happiness += 2.0;
         } else if (happiness > targetHappiness) {
-            happiness -= 0.5;
+            happiness -= 2.0;
         }
 
         // Limites
@@ -502,7 +507,11 @@ public class City implements Serializable {
      * Vérifie si le jeu est terminé (game over)
      */
     public boolean isGameOver() {
-        return happiness <= 5 || money < -50000 ||
+        // Game Over plus strict :
+        // 1. Faillite (Dette > 5000€)
+        // 2. Bonheur critique (<= 0%)
+        // 3. Révolte prolongée (1 semaine de malheur)
+        return happiness <= 0 || money < -5000 ||
                 (consecutiveUnhappyHours > 168); // 1 semaine
     }
 
@@ -510,13 +519,18 @@ public class City implements Serializable {
      * Retourne le message de game over
      */
     public String getGameOverReason() {
-        if (happiness <= 5)
+        if (happiness <= 0)
             return "Tous les habitants ont quitté la ville...";
-        if (money < -50000)
-            return "La ville est en faillite!";
+        if (money < -5000)
+            return "La ville est en faillite (Dette > 5000€)!";
         if (consecutiveUnhappyHours > 168)
             return "Le maire vous retire la gestion!";
-        return "";
+        return gameOverReason;
+    }
+
+    public void setGameOverReason(String reason) {
+        this.gameOverReason = reason;
+        this.isGameOver = true;
     }
 
     /**

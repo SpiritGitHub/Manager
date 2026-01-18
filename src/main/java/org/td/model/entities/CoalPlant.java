@@ -1,6 +1,5 @@
 package org.td.model.entities;
 
-
 import org.td.model.enums.PowerPlantType;
 
 /**
@@ -28,10 +27,10 @@ public class CoalPlant extends PowerPlant {
         this.maintenanceCostPerHour = 30 + (level * 10);
         this.pollutionLevel = 8.0 + (level * 0.5); // Très polluant
         this.operatingCostPerKWh = 0.08; // 8 centimes par kWh
-        this.maintenanceInterval = 720; // 30 jours
+        this.maintenanceInterval = 120; // 5 jours ! Il faut bosser.
 
         // Charbon
-        this.coalReserve = 1000.0; // 1000 tonnes au départ
+        this.coalReserve = 200.0; // 200 tonnes au départ (s'épuise plus vite)
         this.coalConsumptionRate = 0.4; // 0.4 kg par kWh
         this.coalCostPerTon = 100; // 100€ la tonne
     }
@@ -54,6 +53,7 @@ public class CoalPlant extends PowerPlant {
 
     /**
      * Réapprovisionne en charbon
+     * 
      * @param tons Nombre de tonnes à acheter
      * @return Coût total
      */
@@ -100,7 +100,8 @@ public class CoalPlant extends PowerPlant {
      * Estime combien d'heures la réserve actuelle peut tenir
      */
     public double getHoursUntilEmpty() {
-        if (currentProduction == 0) return Double.POSITIVE_INFINITY;
+        if (currentProduction == 0)
+            return Double.POSITIVE_INFINITY;
         double hourlyConsumption = (currentProduction * coalConsumptionRate) / 1000.0;
         return coalReserve / hourlyConsumption;
     }

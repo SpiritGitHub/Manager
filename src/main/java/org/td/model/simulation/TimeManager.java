@@ -18,9 +18,9 @@ public class TimeManager {
     private boolean isRunning;
 
     // Vitesses de jeu en millisecondes par heure de jeu
-    private static final long SLOW_MS = 2000;      // 2 secondes = 1 heure
-    private static final long NORMAL_MS = 1000;    // 1 seconde = 1 heure
-    private static final long FAST_MS = 500;       // 0.5 seconde = 1 heure
+    private static final long SLOW_MS = 2000; // 2 secondes = 1 heure
+    private static final long NORMAL_MS = 1000; // 1 seconde = 1 heure
+    private static final long FAST_MS = 500; // 0.5 seconde = 1 heure
     private static final long ULTRA_FAST_MS = 200; // 0.2 seconde = 1 heure
 
     // Listeners pour notifications
@@ -30,6 +30,9 @@ public class TimeManager {
     private Thread simulationThread;
     private long lastUpdateTime;
     private long accumulatedTime;
+
+    // Compteur pour Game Over
+    private int consecutiveZeroHappiness = 0;
 
     /**
      * Constructeur
@@ -48,7 +51,8 @@ public class TimeManager {
      * Démarre la simulation
      */
     public void start() {
-        if (isRunning) return;
+        if (isRunning)
+            return;
 
         isRunning = true;
         isPaused = false;
@@ -131,8 +135,35 @@ public class TimeManager {
             notifyNewMonth();
         }
 
-        // Game Over
+        // Game Over - Bonheur critique
         if (city.isGameOver()) {
+            notifyGameOver();
+            pause();
+        }
+
+        // Game Over - Pénurie critique (Black-out prolongé)
+        // Si la production couvre moins de 50% de la demande pendant 24h consécutives
+        double energyProduction = city.getTotalEnergyProduction();
+        double energyDemand = city.getTotalEnergyDemand();
+
+        boolean isBlackout = energyDemand > 0 && (energyProduction / energyDemand < 0.5);
+
+        if (isBlackout) {
+            consecutiveZeroHappiness++; // On réutilise cette variable ou on en crée une propre
+            // TODO: Renommer la variable pour être plus clair, mais pour l'instant ça
+            // marche
+        } else {
+            // On ne reset que si le bonheur est AUSSI bon.
+            // Si on a du courant mais que les gens sont malheureux (0%), on garde le
+            // compteur
+            if (city.getHappiness() > 0) {
+                consecutiveZeroHappiness = 0;
+            }
+        }
+
+        // Seuil: 24h de crise (blackout OU bonheur nulle)
+        if (consecutiveZeroHappiness >= 24) {
+            city.setGameOverReason("ÉMEUTES ! La ville a subi un black-out total pendant trop longtemps. (24h)");
             notifyGameOver();
             pause();
         }
@@ -285,10 +316,8 @@ public class TimeManager {
         return city;
     }
 
-
 }
 
 /**
  * Vitesses de jeu disponibles
  */
-

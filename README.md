@@ -94,6 +94,7 @@ Gérez la production d'énergie, construisez des résidences, développez des in
 | Construction | ![Construction](docs/screenshots/construction.PNG) |
 | Statistiques | ![Stats](docs/screenshots/stats.PNG) |
 | Événements / alertes | ![Événements](docs/screenshots/evenement.PNG) | ![Événements](docs/screenshots/evenements.PNG) |
+| Fin de la partie | ![Fin](docs/screenshots/fin.PNG) |
 
 ### Démo vidéo 
 [Voir la démo sur Vimeo](https://vimeo.com/1155556302?fl=ip&fe=ec)
